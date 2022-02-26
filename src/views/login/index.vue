@@ -5,10 +5,12 @@
     <!-- /导航栏 -->
 
     <!-- 登录表单 -->
-    <van-form @submit="onSubmit">
+    <van-form
+    ref="loginForm"
+    @submit="onSubmit">
       <van-field
         v-model ="user.mobile"
-        name="手机号"
+        name="mobile"
         placeholder="请输入手机号"
         :rules="userFormRules.mobile"
         type="number"
@@ -18,7 +20,7 @@
       </van-field>
       <van-field
         v-model ="user.code"
-        name="验证码"
+        name="code"
         placeholder="请输入验证码"
         :rules="userFormRules.code"
         type="number"
@@ -26,7 +28,14 @@
       >
         <i slot="left-icon" class="iconfont toutiao-yanzhengma"></i>
         <template #button>
-          <van-button class="send-sms-btn" round size="small" type="default">发送验证码</van-button>
+          <van-button
+            class="send-sms-btn"
+            @click="onSendSms"
+            native-type="button"
+            round
+            size="small"
+            type="default"
+            >发送验证码</van-button>
         </template>
       </van-field>
       <div class="login-btn-wrap">
@@ -47,8 +56,8 @@ export default {
   data () {
     return {
       user: {
-        mobile: '17611111111',
-        code: '246810'
+        mobile: '',
+        code: ''
       },
       userFormRules: {
         mobile: [{
@@ -96,6 +105,16 @@ export default {
           this.$toast.fail('登陆失败,请稍后重试')
         }
       }
+    },
+    async onSendSms () {
+      console.log('onSendSms')
+      try {
+        await this.$refs.loginForm.validate('mobile')
+        // console.log('验证通过')
+      } catch (err) {
+        return console.log('验证失败', err)
+      }
+      // console.log('测试return是否继续往后执行')
     }
   }
 }
