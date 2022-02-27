@@ -28,7 +28,14 @@
       >
         <i slot="left-icon" class="iconfont toutiao-yanzhengma"></i>
         <template #button>
+          <van-count-down
+            :time="1000*60"
+            format=" ss s"
+            v-if="isCountDownShow"
+            @finish="isCountDownShow = false"
+          />
           <van-button
+            v-else
             class="send-sms-btn"
             @click="onSendSms"
             native-type="button"
@@ -74,7 +81,8 @@ export default {
           pattern: /^\d{6}$/,
           message: '验证码格式错误'
         }]
-      }
+      },
+      isCountDownShow: false
     }
   },
   computed: {},
@@ -113,8 +121,8 @@ export default {
         // console.log('验证通过')
       } catch (err) {
         return console.log('验证失败', err)
-      }
-      // console.log('测试return是否继续往后执行')
+      } // console.log('测试return是否继续往后执行')
+      this.isCountDownShow = true
     }
   }
 }
