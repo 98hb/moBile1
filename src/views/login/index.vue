@@ -29,7 +29,7 @@
         <i slot="left-icon" class="iconfont toutiao-yanzhengma"></i>
         <template #button>
           <van-count-down
-            :time="1000*60"
+            :time="1000*6"
             format=" ss s"
             v-if="isCountDownShow"
             @finish="isCountDownShow = false"
@@ -55,7 +55,7 @@
   </div>
 </template>
 <script>
-import { login } from '@/api/user'
+import { login, sendSms } from '@/api/user'
 export default {
   name: 'LoginIndex',
   components: {},
@@ -123,6 +123,36 @@ export default {
         return console.log('验证失败', err)
       } // console.log('测试return是否继续往后执行')
       this.isCountDownShow = true
+      // try {
+      //   // const res = await sendSms(this.user.mobile)
+      //   // console.log('发送成功', res)
+      //   await sendSms(this.user.mobile)
+      //   this.$toast('发送成功')
+      // } catch (err) {
+      //   // console.log('发送失败', err)
+      //   this.isCountDownShow = false
+      //   if (err.response.status === 429) {
+      //     this.$toast('发送太频繁了,请稍后重试')
+      //   } if (err.response.status === 404) {
+      //     this.$toast('手机号不正确')
+      //   } else {
+      //     this.$toast('发送失败,请稍后重试')
+      //   }
+      // }
+      try {
+        // const res = await sendSms(this.user.mobile)
+        // console.log('发送成功', res)
+        await sendSms(this.user.mobile)
+        this.$toast('发送成功')
+      } catch (err) {
+        this.isCountDownShow = false
+        // console.log('发送失败', err)
+        if (err.response.status === 429) {
+          this.$toast('发送太频繁了,请稍后重试')
+        } else {
+          this.$toast('发送失败,请稍后重试')
+        }
+      }
     }
   }
 }
