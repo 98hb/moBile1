@@ -1,34 +1,34 @@
 <!--  -->
 <template>
-<div class='layout-container'>
+<div class='layout_container'>
     <!-- 组件布局 -->
     <router-view />
     <van-tabbar
-    class="layout-tabbar"
+    class="layout_tabbar"
     route
     >
       <van-tabbar-item
       to = "/"
       >
-        <i slot="icon" class="iconfont toutiao-shouye" ></i>
+        <i slot="icon" class="iconfont toutiao_shouye" ></i>
         <span class="text" >首页</span>
       </van-tabbar-item>
       <van-tabbar-item
       to = "/qa"
       >
-        <i slot="icon" class="iconfont toutiao-wenda" ></i>
+        <i slot="icon" class="iconfont toutiao_wenda" ></i>
         <span class="text" >问答</span>
       </van-tabbar-item>
       <van-tabbar-item
       to = "/video"
       >
-        <i slot="icon" class="iconfont toutiao-shipin" ></i>
+        <i slot="icon" class="iconfont toutiao_shipin" ></i>
         <span class="text" >视频</span>
       </van-tabbar-item>
       <van-tabbar-item
       to = "/my"
       >
-        <i slot="icon" class="iconfont toutiao-wode" ></i>
+        <i slot="icon" class="iconfont toutiao_wode" ></i>
         <span class="text" >我的</span>
       </van-tabbar-item>
     </van-tabbar>
@@ -77,8 +77,8 @@ export default {
 </script>
 <style lang='less' scoped>
 //@import url(); 引入公共css类
-.layout-container {
-  .layout-tabbar {
+.layout_container {
+  .layout_tabbar {
     i.iconfont {
       font-size: 40px;
     }

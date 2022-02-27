@@ -1,7 +1,15 @@
 <template>
-  <div class="login-container">
+  <div class="login_container">
     <!-- 导航栏 -->
-    <van-nav-bar  title="登录" />
+    <van-nav-bar
+    title="登录"
+    >
+      <van-icon
+      slot="left"
+      name="cross"
+      @click="$router.back() "
+      />
+    </van-nav-bar>
     <!-- /导航栏 -->
 
     <!-- 登录表单 -->
@@ -16,7 +24,7 @@
         type="number"
         maxlength="11"
       >
-        <i slot="left-icon" class="iconfont toutiao-shouji"></i>
+        <i slot="left-icon" class="iconfont toutiao_shouji"></i>
       </van-field>
       <van-field
         v-model ="user.code"
@@ -26,7 +34,7 @@
         type="number"
         maxlength="6"
       >
-        <i slot="left-icon" class="iconfont toutiao-yanzhengma"></i>
+        <i slot="left-icon" class="iconfont toutiao_yanzhengma"></i>
         <template #button>
           <van-count-down
             :time="1000*6"
@@ -36,7 +44,7 @@
           />
           <van-button
             v-else
-            class="send-sms-btn"
+            class="send_sms_btn"
             @click="onSendSms"
             native-type="button"
             round
@@ -45,8 +53,8 @@
             >发送验证码</van-button>
         </template>
       </van-field>
-      <div class="login-btn-wrap">
-        <van-button class="login-btn" block type="info" native-type="submit">
+      <div class="login_btn_wrap">
+        <van-button class="login_btn " block type="info" native-type="submit">
           登录
         </van-button>
       </div>
@@ -144,11 +152,11 @@ export default {
 }
 </script>
 <style scoped lang="less">
-.login-container {
+.login_container {
   .iconfont {
     font-size: 37px;
   }
-  .send-sms-btn {
+  .send_sms_btn {
     width: 152px;
     height: 46px;
     line-height: 46px;
@@ -156,9 +164,9 @@ export default {
     font-size: 22px;
     color: #666;
   }
-  .login-btn-wrap {
+  .login_btn_wrap {
     padding: 53px 33px;
-    .login-btn {
+    .login_btn {
       background-color: #6db4fb;
       border: none;
     }
@@ -166,7 +174,7 @@ export default {
 }
  .van-nav-bar {
     background-color: #3296fa;
-    .van-nav-bar__title {
+    .van-nav-bar__title, .van-icon {
       color: #fff;
     }
   }

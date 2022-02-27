@@ -1,6 +1,6 @@
 <!--  -->
 <template>
-<div class='home-container'>首页</div>
+<div class='home_container'>首页</div>
 </template>
 
 <script>

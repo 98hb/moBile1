@@ -1,6 +1,13 @@
 <!--  -->
 <template>
-<div class='my-container'>我的</div>
+<div class='my_container'>
+  <div class="header not_login">
+    <div class="login_btn" @click="$router.push('/login') ">
+      <img class="mobile_img" src="~@/assets/mobile.png" alt="">
+      <span class="text">登录 / 注册</span>
+    </div>
+  </div>
+</div>
 </template>
 
 <script>
@@ -45,5 +52,33 @@ export default {
 </script>
 <style lang='less' scoped>
 //@import url(); 引入公共css类
+.my_container {
+  .header {
+    height: 361px;
+    // background: url("../../assets/banner.png");
+    background: url("~@/assets/banner.png");
+    background-size: cover;
+  }
 
+  .not_login {
+    display: flex; // 水平垂直居中
+    justify-content: center; // 水平居中
+    align-items: center; // 垂直居中
+    .login_btn {
+      display: flex;
+      flex-direction: column; // 垂直分布(默认是水平分布)
+      justify-content: center;
+      align-items: center;
+      .mobile_img {
+        width: 132px;
+        height: 132px;
+        margin-bottom: 15px;
+      }
+      .text {
+        font-size: 28px;
+        color: #fff;
+      }
+    }
+}
+}
 </style>
