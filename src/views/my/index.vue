@@ -6,11 +6,11 @@
         <div class="left">
           <van-image
             class="avatar"
-            src="https://img01.yzcdn.cn/vant/cat.jpeg"
+            :src="userInfo.photo"
             round
             fit="cover"
           />
-          <span class="name">黑马头条号</span>
+          <span class="name">{{userInfo.name}}</span>
         </div>
         <div class="right">
           <van-button size="mini" round="">编辑资料</van-button>
@@ -18,19 +18,19 @@
       </div>
       <div class="data_stats">
         <div class="data_item">
-          <span class="count">10</span>
+          <span class="count">{{userInfo.art_count}}</span>
           <span class="text">头条</span>
         </div>
         <div class="data_item">
-          <span class="count">10</span>
+          <span class="count">{{userInfo.follow_count}}</span>
           <span class="text">关注</span>
         </div>
         <div class="data_item">
-          <span class="count">10</span>
+          <span class="count">{{userInfo.fans_count}}</span>
           <span class="text">粉丝</span>
         </div>
         <div class="data_item">
-          <span class="count">10</span>
+          <span class="count">{{userInfo.like_count}}</span>
           <span class="text">获赞</span>
         </div>
       </div>
@@ -41,26 +41,26 @@
       <span class="text">登录 / 注册</span>
     </div>
   </div>
-  <!-- 导航 -->
-<van-grid :column-num='2' class="grid_nav" clickable>
-  <van-grid-item class="grid_item">
-    <i slot="icon" class="iconfont toutiao_shoucang"></i>
-    <span slot="text" class="text">收藏</span>
-  </van-grid-item>
-  <van-grid-item class="grid_item">
-    <i slot="icon" class="iconfont toutiao_lishi"></i>
-    <span slot="text" class="text">历史</span>
-  </van-grid-item>
-  <van-cell title="消息通知" is-link></van-cell>
-  <van-cell class="mb_9" title="小智同学" is-link></van-cell>
-  <van-cell v-if="user"
-  class="logout_cell"
-  title="退出登录"
-  clickable
-  @click="onLogout"
-  ></van-cell>
-</van-grid>
-  <!-- /导航 -->
+    <!-- 导航 -->
+  <van-grid :column-num='2' class="grid_nav" clickable>
+    <van-grid-item class="grid_item">
+      <i slot="icon" class="iconfont toutiao_shoucang"></i>
+      <span slot="text" class="text">收藏</span>
+    </van-grid-item>
+    <van-grid-item class="grid_item">
+      <i slot="icon" class="iconfont toutiao_lishi"></i>
+      <span slot="text" class="text">历史</span>
+    </van-grid-item>
+      <van-cell title="消息通知" is-link></van-cell>
+      <van-cell class="mb_9" title="小智同学" is-link></van-cell>
+      <van-cell v-if="user"
+      class="logout_cell"
+      title="退出登录"
+      clickable
+      @click="onLogout"
+      ></van-cell>
+  </van-grid>
+    <!-- /导航 -->
 </div>
 </template>
 
@@ -68,6 +68,8 @@
 // 这里可以导入其他文件（比如：组件，工具js，第三方插件js，json文件，图片文件等等）
 // 例如：import 《组件名称》 from '《组件路径》';
 import { mapState } from 'vuex'
+// 请求加载数据，在下面created调用加载
+import { getUserInfo } from '@/api/user'
 export default {
 // import引入的组件需要注入到对象中才能使用
   name: 'MyIndex',
@@ -76,7 +78,7 @@ export default {
   data () {
     // 这里存放数据
     return {
-
+      userInfo: {} // 用户信息
     }
   },
   // 监听属性 类似于data概念
@@ -89,8 +91,8 @@ export default {
   methods: {
     onLogout () {
       // console.log('onLogout')
-      // 推出提示
-      // 确认退出:清楚登陆状态 (容器中的 user + 本地存储中的 user)
+      // 退出提示
+      // 确认退出:清除登陆状态 (容器中的 user + 本地存储中的 user)
       // 在组件中需要使用 this.$dialog 来调用弹框组件
       this.$dialog.confirm({
         title: '确认退出吗'
@@ -105,11 +107,24 @@ export default {
         // on cancel
           console.log('取消执行这里代码')
         })
+    },
+    async loadUserInfo () {
+      try {
+        // 请求数据
+        const { data } = await getUserInfo()
+        console.log(data)
+        this.userInfo = data.data
+      } catch (err) { // 失败给个数据
+        this.$toast('获取数据失败, 请稍后重试')
+      }
     }
   },
   // 生命周期 - 创建完成（可以访问当前this实例）
   created () {
-
+    // 如果用户登录了, 则请求加载用户信息数据
+    if (this.user) {
+      this.loadUserInfo()
+    }
   },
   // 生命周期 - 挂载完成（可以访问DOM元素）
   mounted () {
