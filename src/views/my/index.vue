@@ -53,7 +53,12 @@
   </van-grid-item>
   <van-cell title="消息通知" is-link></van-cell>
   <van-cell class="mb_9" title="小智同学" is-link></van-cell>
-  <van-cell v-if="user" class="logout_cell" title="退出登录"></van-cell>
+  <van-cell v-if="user"
+  class="logout_cell"
+  title="退出登录"
+  clickable
+  @click="onLogout"
+  ></van-cell>
 </van-grid>
   <!-- /导航 -->
 </div>
@@ -82,7 +87,25 @@ export default {
   watch: {},
   // 方法集合
   methods: {
-
+    onLogout () {
+      // console.log('onLogout')
+      // 推出提示
+      // 确认退出:清楚登陆状态 (容器中的 user + 本地存储中的 user)
+      // 在组件中需要使用 this.$dialog 来调用弹框组件
+      this.$dialog.confirm({
+        title: '确认退出吗'
+      })
+        .then(() => {
+        // on confirm
+        // console.log('确认执行这里代码')
+        // 确认退出: 清除登录状态 (容器中的 user + 本地存储中的 user)
+          this.$store.commit('setUser', null)
+        })
+        .catch(() => {
+        // on cancel
+          console.log('取消执行这里代码')
+        })
+    }
   },
   // 生命周期 - 创建完成（可以访问当前this实例）
   created () {
