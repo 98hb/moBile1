@@ -1,13 +1,7 @@
 <!--  -->
 <template>
 <div class='my_container'>
-  <div class="header not_login">
-    <div class="login_btn" @click="$router.push('/login') ">
-      <img class="mobile_img" src="~@/assets/mobile.png" alt="">
-      <span class="text">登录 / 注册</span>
-    </div>
-  </div>
-    <div class="header user_info" >
+    <div v-if="user" class="header user_info" >
       <div class="base_info">
         <div class="left">
           <van-image
@@ -41,6 +35,12 @@
         </div>
       </div>
     </div>
+  <div v-else class="header not_login">
+    <div class="login_btn" @click="$router.push('/login') ">
+      <img class="mobile_img" src="~@/assets/mobile.png" alt="">
+      <span class="text">登录 / 注册</span>
+    </div>
+  </div>
   <!-- 导航 -->
 <van-grid :column-num='2' class="grid_nav" clickable>
   <van-grid-item class="grid_item">
@@ -51,6 +51,9 @@
     <i slot="icon" class="iconfont toutiao_lishi"></i>
     <span slot="text" class="text">历史</span>
   </van-grid-item>
+  <van-cell title="消息通知" is-link></van-cell>
+  <van-cell class="mb_9" title="小智同学" is-link></van-cell>
+  <van-cell v-if="user" class="logout_cell" title="退出登录"></van-cell>
 </van-grid>
   <!-- /导航 -->
 </div>
@@ -59,7 +62,7 @@
 <script>
 // 这里可以导入其他文件（比如：组件，工具js，第三方插件js，json文件，图片文件等等）
 // 例如：import 《组件名称》 from '《组件路径》';
-
+import { mapState } from 'vuex'
 export default {
 // import引入的组件需要注入到对象中才能使用
   name: 'MyIndex',
@@ -72,7 +75,9 @@ export default {
     }
   },
   // 监听属性 类似于data概念
-  computed: {},
+  computed: {
+    ...mapState(['user'])
+  },
   // 监控data中的数据变化
   watch: {},
   // 方法集合
@@ -190,6 +195,14 @@ export default {
         font-size: 28px;
       }
  }
+}
+.logout_cell {
+  text-align: center;
+  color: #d86262;
+}
+
+.mb_9 {
+  margin-bottom: 9px;
 }
 
 }
