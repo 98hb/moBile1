@@ -3,6 +3,7 @@
     <!-- 导航栏 -->
     <van-nav-bar
     title="登录"
+    id="page_nav_bar"
     >
       <van-icon
       slot="left"
@@ -166,6 +167,7 @@ export default {
     background-color: #ededed;
     font-size: 22px;
     color: #666;
+    padding: 0;
   }
   .login_btn_wrap {
     padding: 53px 33px;
@@ -175,10 +177,4 @@ export default {
     }
   }
 }
- .van-nav-bar {
-    background-color: #3296fa;
-    .van-nav-bar__title, .van-icon {
-      color: #fff;
-    }
-  }
 </style>

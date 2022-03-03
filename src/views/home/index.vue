@@ -1,6 +1,19 @@
 <!--  -->
 <template>
-<div class='home_container'>首页</div>
+<div class='home_container'>
+  <!-- 导航栏 -->
+    <van-nav-bar id="page_nav_bar">
+      <van-button
+      class="search_btn"
+      slot="title"
+      type="info"
+      size="small"
+      round
+      icon="search"
+      >搜索</van-button>
+    </van-nav-bar>
+    <!-- /导航栏 -->
+</div>
 </template>
 
 <script>
@@ -45,5 +58,19 @@ export default {
 </script>
 <style lang='less' scoped>
 //@import url(); 引入公共css类
-
+.home_container {
+  .van-nav-bar__title {
+    max-width: unset;
+  }
+  .search_btn {
+    width: 555px;
+    height: 64px;
+    background-color: #5babfb;
+    border: none;
+    font-size: 28px;
+  .van-icon {
+    font-style: 32px;
+  }
+  }
+}
 </style>
