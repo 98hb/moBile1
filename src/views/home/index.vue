@@ -17,17 +17,11 @@
     <!-- 通过 animated 属性可以开启切换标签内容时的转场动画。 -->
     <!-- 通过 swipeable 属性可以开启滑动切换标签页。 -->
     <van-tabs class="chanel_tabs" v-model="active" animated swipeable>
-      <van-tab title="标签 1">内容 1</van-tab>
-      <van-tab title="标签 2">内容 2</van-tab>
-      <van-tab title="标签 3">内容 3</van-tab>
-      <van-tab title="标签 4">内容 4</van-tab>
-      <van-tab title="标签 4">内容 4</van-tab>
-      <van-tab title="标签 4">内容 4</van-tab>
-      <van-tab title="标签 4">内容 4</van-tab>
-      <van-tab title="标签 4">内容 4</van-tab>
-      <van-tab title="标签 4">内容 4</van-tab>
-      <van-tab title="标签 4">内容 4</van-tab>
-      <van-tab title="标签 4">内容 4</van-tab>
+      <van-tab
+        :title="chanel.name"
+        v-for="chanel in channels"
+        :key = chanel.id
+      >{{chanel.name}}内容</van-tab>
       <div slot="nav-right" class="placeholder"></div>
       <div slot="nav-right" class="hamburger_btn">
         <i class="iconfont toutiao_gengduo" ></i>
@@ -40,7 +34,7 @@
 <script>
 // 这里可以导入其他文件（比如：组件，工具js，第三方插件js，json文件，图片文件等等）
 // 例如：import 《组件名称》 from '《组件路径》';
-
+import { getUserChannels } from '@/api/user'
 export default {
 // import引入的组件需要注入到对象中才能使用
   name: 'HomeIndex',
@@ -49,7 +43,8 @@ export default {
   data () {
     // 这里存放数据
     return {
-      active: 0
+      active: 0,
+      channels: [] // 频道列表
     }
   },
   // 监听属性 类似于data概念
@@ -58,11 +53,19 @@ export default {
   watch: {},
   // 方法集合
   methods: {
-
+    async loadChanels () {
+      try {
+        const { data } = await getUserChannels()
+        console.log(data)
+        this.channels = data.data.channels
+      } catch (err) {
+        this.$toast('获取频道数据失败')
+      }
+    }
   },
   // 生命周期 - 创建完成（可以访问当前this实例）
   created () {
-
+    this.loadChanels()
   },
   // 生命周期 - 挂载完成（可以访问DOM元素）
   mounted () {
