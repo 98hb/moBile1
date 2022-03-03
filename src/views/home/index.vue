@@ -28,6 +28,10 @@
       <van-tab title="标签 4">内容 4</van-tab>
       <van-tab title="标签 4">内容 4</van-tab>
       <van-tab title="标签 4">内容 4</van-tab>
+      <div slot="nav-right" class="placeholder"></div>
+      <div slot="nav-right" class="hamburger_btn">
+        <i class="iconfont toutiao_gengduo" ></i>
+      </div>
   </van-tabs>
     <!-- /频道列表 -->
 </div>
@@ -111,6 +115,46 @@ export default {
       background-color: #3296fa;
       bottom: 8px;
     }
+    .placeholder {
+     width: 66px;
+     height: 82px;
+     flex-shrink: 0; // 默认是1,不让此标签参与计算
+    }
+    .hamburger_btn {
+      // background-color: #eee;
+      position: fixed;
+      right: 0;
+      width: 66px;
+      height: 82px;
+      display: flex;
+      justify-content: center; // 水平居中
+      align-items: center; // 垂直居中
+      background-color: rgb(255, 255, 255);
+      opacity: 0.902;
+      i.iconfont {
+        font-size: 33px;
+      }
+      &::before {
+        content: "";
+        width: 10px;
+        height: 100%;
+        position: absolute;
+        left: 0;
+        // background-image: url(../../assets/gradient-gray-line.png);
+        background-image: url(~@/assets/gradient-gray-line.png);
+        background-size: contain;
+      }
+    }
+/* .形状_2_拷贝_3 {
+  background-image: url("形状 2 拷贝 3.png");
+  position: absolute;
+  left: 683px;
+  top: 141px;
+  width: 1px;
+  height: 58px;
+  z-index: 22;
+}
+ */
   }
 }
 </style>
