@@ -13,6 +13,23 @@
       >搜索</van-button>
     </van-nav-bar>
     <!-- /导航栏 -->
+    <!-- 频道列表 -->
+    <!-- 通过 animated 属性可以开启切换标签内容时的转场动画。 -->
+    <!-- 通过 swipeable 属性可以开启滑动切换标签页。 -->
+    <van-tabs class="chanel_tabs" v-model="active" animated swipeable>
+      <van-tab title="标签 1">内容 1</van-tab>
+      <van-tab title="标签 2">内容 2</van-tab>
+      <van-tab title="标签 3">内容 3</van-tab>
+      <van-tab title="标签 4">内容 4</van-tab>
+      <van-tab title="标签 4">内容 4</van-tab>
+      <van-tab title="标签 4">内容 4</van-tab>
+      <van-tab title="标签 4">内容 4</van-tab>
+      <van-tab title="标签 4">内容 4</van-tab>
+      <van-tab title="标签 4">内容 4</van-tab>
+      <van-tab title="标签 4">内容 4</van-tab>
+      <van-tab title="标签 4">内容 4</van-tab>
+  </van-tabs>
+    <!-- /频道列表 -->
 </div>
 </template>
 
@@ -28,7 +45,7 @@ export default {
   data () {
     // 这里存放数据
     return {
-
+      active: 0
     }
   },
   // 监听属性 类似于data概念
@@ -71,6 +88,29 @@ export default {
   .van-icon {
     font-style: 32px;
   }
+  }
+  /deep/ .chanel_tabs {
+    .van-tabs__wrap{
+      height: 82px;
+    }
+    .van-tab {
+      border-right: 1px solid #edeff3;
+      min-width: 200px;
+      font-size: 30px;
+      color: #777777;
+    }
+    .van-tab--active {
+      color: #5d5d5d;
+    }
+    .van-tabs__nav {
+      padding-bottom: 0;
+    }
+    .van-tabs__line {
+      width: 31px !important;
+      height: 6px;
+      background-color: #3296fa;
+      bottom: 8px;
+    }
   }
 }
 </style>
