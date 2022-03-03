@@ -1,7 +1,16 @@
 <!--  -->
 <template>
 <div class='article_list'>
-    文章列表组件
+    封装一个文章列表组件
+    <!-- 文章列表 -->
+    <van-list
+      v-model="loading"
+      :finished="finished"
+      finished-text="没有更多了"
+      @load="onLoad"
+    >
+  <van-cell v-for="item in list" :key="item" :title="item" />
+</van-list>
 </div>
 </template>
 
@@ -14,7 +23,7 @@ export default {
   name: 'ArticleList',
   components: {},
   props: {
-    channel: {
+    channel: { // 接收频道对象
       type: Object,
       required: true
     }
@@ -22,7 +31,17 @@ export default {
   data () {
     // 这里存放数据
     return {
+      /*
+      load 滚动条与底部距离小于 offset 时触发
+      List有以下三种状态，理解这些状态有助于你正确地使用List组件：
 
+      非加载中，loading为false，此时会根据列表滚动位置判断是否触发load事件（列表内容不足一屏幕时，会直接触发）
+      加载中，loading为true，表示正在发送异步请求，此时不会触发load事件
+      加载完成，finished为true，此时不会触发load事件
+      在每次请求完毕后，需要手动将loading设置为false，表示加载结束 */
+      list: [], // 存储列表数据的数组
+      loading: false, // 控制加载中 loading 状态
+      finished: false // 控制数据加载结束的状态
     }
   },
   // 监听属性 类似于data概念
@@ -31,7 +50,32 @@ export default {
   watch: {},
   // 方法集合
   methods: {
+    // 当组件初始化或滚动到到底部时，会触发 load 事件并将 loading 设置成 true
+    onLoad () {
+      console.log('onload')
+      // 异步更新数据
+      // setTimeout 仅做示例，真实场景中一般为 ajax 请求
+      setTimeout(() => {
+        for (let i = 0; i < 10; i++) {
+          this.list.push(this.list.length + 1)
+          // 0 + 1 = 1
+          // 1 + 1 = 2
+          // 2 + 1 = 3
+          // ...
+          // 9 + 1 = 10
+          // this.loading = true 不加载这个 函数代码往后自增了
+        }
 
+        // 加载状态结束 写false 会继续自增
+        this.loading = false
+
+        // 数据全部加载完成
+        // 写了 finshed 为true的条件，不会继续自增，而且显示加载结束类似自定义话语
+        if (this.list.length >= 40) {
+          this.finished = true
+        }
+      }, 1000)
+    }
   },
   // 生命周期 - 创建完成（可以访问当前this实例）
   created () {

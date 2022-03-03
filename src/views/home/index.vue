@@ -23,7 +23,7 @@
         :key = channel.id
       >
         <!-- 文章列表 -->
-        <!-- <ArticleList></ArticleList> -->
+        <!-- 把频道对象传递给文章列表组件 -->
         <article-list :channel="channel" />
       </van-tab>
       <div slot="nav-right" class="placeholder"></div>
@@ -39,11 +39,11 @@
 // 这里可以导入其他文件（比如：组件，工具js，第三方插件js，json文件，图片文件等等）
 // 例如：import 《组件名称》 from '《组件路径》';
 import { getUserChannels } from '@/api/user'
-import ArticleList from './components/article_list'
+import ArticleList from './components/article_list' // 注册且使用文章列表组件
 export default {
 // import引入的组件需要注入到对象中才能使用
   name: 'HomeIndex',
-  components: { ArticleList },
+  components: { ArticleList }, // 注册且使用文章列表组件
   props: {},
   data () {
     // 这里存放数据
@@ -88,6 +88,7 @@ export default {
 <style lang='less' scoped>
 //@import url(); 引入公共css类
 .home_container {
+  padding-bottom: 100px;
   .van-nav-bar__title {
     max-width: unset;
   }
