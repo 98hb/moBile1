@@ -112,7 +112,7 @@ export default {
       try {
         // 请求数据
         const { data } = await getUserInfo()
-        console.log(data)
+        // console.log(data)
         this.userInfo = data.data
       } catch (err) { // 失败给个数据
         this.$toast('获取数据失败, 请稍后重试')
