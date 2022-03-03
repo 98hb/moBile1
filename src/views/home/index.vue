@@ -16,12 +16,16 @@
     <!-- 频道列表 -->
     <!-- 通过 animated 属性可以开启切换标签内容时的转场动画。 -->
     <!-- 通过 swipeable 属性可以开启滑动切换标签页。 -->
-    <van-tabs class="chanel_tabs" v-model="active" animated swipeable>
+    <van-tabs class="channel_tabs" v-model="active" animated swipeable>
       <van-tab
-        :title="chanel.name"
-        v-for="chanel in channels"
-        :key = chanel.id
-      >{{chanel.name}}内容</van-tab>
+        :title="channel.name"
+        v-for="channel in channels"
+        :key = channel.id
+      >
+        <!-- 文章列表 -->
+        <!-- <ArticleList></ArticleList> -->
+        <article-list :channel="channel" />
+      </van-tab>
       <div slot="nav-right" class="placeholder"></div>
       <div slot="nav-right" class="hamburger_btn">
         <i class="iconfont toutiao_gengduo" ></i>
@@ -35,10 +39,11 @@
 // 这里可以导入其他文件（比如：组件，工具js，第三方插件js，json文件，图片文件等等）
 // 例如：import 《组件名称》 from '《组件路径》';
 import { getUserChannels } from '@/api/user'
+import ArticleList from './components/article_list'
 export default {
 // import引入的组件需要注入到对象中才能使用
   name: 'HomeIndex',
-  components: {},
+  components: { ArticleList },
   props: {},
   data () {
     // 这里存放数据
@@ -53,7 +58,7 @@ export default {
   watch: {},
   // 方法集合
   methods: {
-    async loadChanels () {
+    async loadChannels () {
       try {
         const { data } = await getUserChannels()
         console.log(data)
@@ -65,7 +70,7 @@ export default {
   },
   // 生命周期 - 创建完成（可以访问当前this实例）
   created () {
-    this.loadChanels()
+    this.loadChannels()
   },
   // 生命周期 - 挂载完成（可以访问DOM元素）
   mounted () {
@@ -96,7 +101,7 @@ export default {
     font-style: 32px;
   }
   }
-  /deep/ .chanel_tabs {
+  /deep/ .channel_tabs {
     .van-tabs__wrap{
       height: 82px;
     }
