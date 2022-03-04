@@ -1,21 +1,15 @@
 <!--  -->
 <template>
   <van-cell
-  class='aritcle_item'
-  >
-  <!-- 文章标题 -->
-  <div slot="title"
-  class="title"
-  >
-      {{article.title}}
-  </div>
-  <!-- /文章标题 -->
-  <!--  -->
-  <div slot="label">
+    class='article_item'
+    >
+    <!-- 文章标题 -->
+    <div slot="title" class="title van-multi-ellipsis--l2">{{article.title}}</div>
+    <!-- /文章标题 -->
+    <!-- 展示底部信息 -->
+    <div slot="label">
       <div
-      v-if="article.cover.type === 3"
-      class="cover_wrap"
-      >
+      v-if="article.cover.type === 3" class="cover_wrap">
       <!-- 这里有三张图片 -->
       <div
       class="cover_item"
@@ -23,30 +17,29 @@
       :key="index"
       >
         <van-image
-        width="100"
-        height="100"
+        class="cover_item_img"
         :src="img"
+        fit="cover"
       />
       </div>
           <!-- <div class="cover_item"></div>
           <div class="cover_item"></div>
           <div class="cover_item"></div> -->
       </div>
-      <div>
+      <div class="label_info_wrap">
           <span>{{article.aut_name}} </span>
           <span>{{article.comm_count}}评论 </span>
           <span>{{article.pubdate}} </span>
       </div>
-  </div>
-  <!-- / -->
-  <!--  -->
-    <van-image slot="default"
-    v-if="article.cover.type === 1"
-    width="100"
-    height="100"
-    :src="article.cover.images[0]"
-  />
-  <!-- / -->
+    </div>
+     <!-- /这里有一张图片 -->
+    <van-image
+      class="right_cover"
+      fit="cover"
+      v-if="article.cover.type === 1"
+      slot="default"
+      :src="article.cover.images[0]"
+    />
   </van-cell>
 </template>
 
@@ -97,5 +90,41 @@ export default {
 </script>
 <style lang='less' scoped>
 //@import url(); 引入公共css类
+.article_item {
+    .title {
+        color: #3a3a3a;
+        font-size: 32px;
+    }
 
+    .van-cell__value {
+      flex: unset;
+      width: 232px;
+      height: 146px;
+      padding-left: 26px;
+    }
+    .right_cover {
+      width: 232px;
+      height: 146px;
+    }
+    .label_info_wrap span {
+      font-size: 22px;
+      color: #b4b4b4;
+      margin-right: 25px;
+    }
+    .cover_wrap {
+      display: flex;
+      padding: 30px 0;
+        .cover_item {
+          flex: 1;
+          height: 146px;
+          &:not(:last-child) {
+              padding-right: 4px
+          }
+        }
+          .cover_item_img {
+              width: 100%;
+              height: 146px;
+          }
+    }
+}
 </style>
