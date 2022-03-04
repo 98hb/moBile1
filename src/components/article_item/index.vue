@@ -1,6 +1,53 @@
 <!--  -->
 <template>
-<div class='aritcle_item'>文章列表项</div>
+  <van-cell
+  class='aritcle_item'
+  >
+  <!-- 文章标题 -->
+  <div slot="title"
+  class="title"
+  >
+      {{article.title}}
+  </div>
+  <!-- /文章标题 -->
+  <!--  -->
+  <div slot="label">
+      <div
+      v-if="article.cover.type === 3"
+      class="cover_wrap"
+      >
+      <!-- 这里有三张图片 -->
+      <div
+      class="cover_item"
+      v-for="(img, index) in article.cover.images"
+      :key="index"
+      >
+        <van-image
+        width="100"
+        height="100"
+        :src="img"
+      />
+      </div>
+          <!-- <div class="cover_item"></div>
+          <div class="cover_item"></div>
+          <div class="cover_item"></div> -->
+      </div>
+      <div>
+          <span>{{article.aut_name}} </span>
+          <span>{{article.comm_count}}评论 </span>
+          <span>{{article.pubdate}} </span>
+      </div>
+  </div>
+  <!-- / -->
+  <!--  -->
+    <van-image slot="default"
+    v-if="article.cover.type === 1"
+    width="100"
+    height="100"
+    :src="article.cover.images[0]"
+  />
+  <!-- / -->
+  </van-cell>
 </template>
 
 <script>
