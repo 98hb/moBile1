@@ -7,6 +7,8 @@
       v-model="loading"
       :finished="finished"
       finished-text="没有更多了"
+      :error.sync="error"
+      error-text="请求失败，点击重新加载"
       @load="onLoad"
     >
     <van-cell
@@ -45,7 +47,8 @@ export default {
       list: [], // 存储列表数据的数组
       loading: false, // 控制加载中 loading 状态
       finished: false, // 控制数据加载结束的状态
-      timestamp: null // 请求获取下一页数据的时间戳
+      timestamp: null, // 请求获取下一页数据的时间戳
+      error: false // 控制列表加载失败的提示状态
     }
   },
   // 监听属性 类似于data概念
@@ -88,6 +91,9 @@ export default {
           timestamp: this.timestamp || Date.now(), // 时间戳，请求新的推荐数据传当前的时间戳，请求历史推荐传指定的时间戳
           with_top: 1
         })
+        // if (Math.random() > 0.5) { // 模拟随机失败的情况
+        //   JSON.parse('dlsadfag')
+        // } // 测试完即可注释
         // console.log(data)
         // 2. 把请求数据加载结束之后要把加载状态设置为结束
         const { results } = data.data
@@ -103,7 +109,9 @@ export default {
           this.finished = true
         }
       } catch (err) {
-        console.log('请求失败', err)
+        // console.log('请求失败', err)
+        this.error = true // 展示错误状态
+        this.loading = false // 请求失败Loading也需要关闭
       }
     }
   },
