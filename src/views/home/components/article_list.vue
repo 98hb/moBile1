@@ -3,6 +3,12 @@
 <div class='article_list'>
     <!-- 封装一个文章列表组件 -->
     <!-- 文章列表 -->
+    <van-pull-refresh
+    v-model="isreFreshLoading"
+    :success-text="refreshSuccessText"
+    :success-duration="800"
+    @refresh="onRefresh">
+
     <van-list
       v-model="loading"
       :finished="finished"
@@ -16,6 +22,7 @@
     :key="index"
     :title="article.title" />
     </van-list>
+    </van-pull-refresh>
 </div>
 </template>
 
@@ -48,7 +55,9 @@ export default {
       loading: false, // 控制加载中 loading 状态
       finished: false, // 控制数据加载结束的状态
       timestamp: null, // 请求获取下一页数据的时间戳
-      error: false // 控制列表加载失败的提示状态
+      error: false, // 控制列表加载失败的提示状态
+      isreFreshLoading: false, // 控制下拉刷新的 loading 状态
+      refreshSuccessText: '刷新成功' // 下拉刷新成功提示文本
     }
   },
   // 监听属性 类似于data概念
@@ -113,6 +122,44 @@ export default {
         this.error = true // 展示错误状态
         this.loading = false // 请求失败Loading也需要关闭
       }
+    },
+    async onRefresh () { // 当下拉刷新的时候会触发该函数
+      try {
+        // 请求获取数据
+        // 1. 请求获取数据
+        const { data } = await getArticles({
+          channel_id: this.channel.id, // 频道ID props 里面的参数
+          timestamp: Date.now(), // 下拉刷新,每次请求获取最新数据,所以传递当前最新时间戳
+          with_top: 1
+        })
+        // if (Math.random() > 0.1) { // 模拟随机失败的情况
+        //   JSON.parse('dlsadfag')
+        // } // 测试完即可注释
+
+        // 2.将数据追加到列表的顶部
+        // this.list.unshift(...data.data.results)
+
+        const { results } = data.data
+        this.list.unshift(...results)
+
+        // 3.关闭下拉刷新的 loading 状态
+
+        this.isreFreshLoading = false
+
+        // 更新下拉刷新成功提示的文本
+
+        this.refreshSuccessText = `刷新成功,更新了${results.length}条数据`
+      } catch (err) {
+        // console.log('请求失败', err)
+        this.isreFreshLoading = false
+        this.refreshSuccessText = '刷新失败'
+      }
+      // console.log('onRefresh') // 测试
+      // setTimeout(() => {
+      //   Toast ('刷新成功')
+      //   this.isLoading = false
+      //   this.count++
+      // }, 1000)
     }
   },
   // 生命周期 - 创建完成（可以访问当前this实例）
