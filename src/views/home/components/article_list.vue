@@ -181,5 +181,9 @@ export default {
 </script>
 <style lang='less' scoped>
 //@import url(); 引入公共css类
-
+.article_list {
+  // height: 100%; // 百分比单位是相对父元素的
+  height: 79vh; // 不受父元素影响
+  overflow-y: auto;
+}
 </style>
