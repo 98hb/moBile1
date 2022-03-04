@@ -2,7 +2,7 @@
 <template>
 <div class='home_container'>
   <!-- 导航栏 -->
-    <van-nav-bar id="page_nav_bar">
+    <van-nav-bar id="page_nav_bar" fixed>
       <van-button
       class="search_btn"
       slot="title"
@@ -88,6 +88,8 @@ export default {
 <style lang='less' scoped>
 //@import url(); 引入公共css类
 .home_container {
+  /* 添加上padding 撑开高度 */
+  padding-top: 174px;
   padding-bottom: 100px;
   .van-nav-bar__title {
     max-width: unset;
@@ -105,6 +107,12 @@ export default {
   /deep/ .channel_tabs {
     .van-tabs__wrap{
       height: 82px;
+      position: fixed;
+      top: 92px;
+      left: 0;
+      right: 0;
+      z-index: 1;
+      width: 100%;
     }
     .van-tab {
       border-right: 1px solid #edeff3;
