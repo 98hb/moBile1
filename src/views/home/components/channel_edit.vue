@@ -1,6 +1,29 @@
 <!--  -->
 <template>
-<div class='channel_edit'>频道编辑</div>
+<div class='channel_edit'>
+  <van-cell :border="false">
+    <div slot="title">我的频道</div>
+    <van-button
+    size="mini"
+    type="danger"
+    round
+    plain
+    >
+    编辑
+    </van-button>
+  </van-cell>
+  <van-grid :gutter="10">
+  <van-grid-item v-for="value in 3" :key="value"  text="文字" />
+  </van-grid>
+  <!-- 频道推荐 -->
+  <van-cell :border="false">
+    <div slot="title">频道推荐</div>
+  </van-cell>
+  <van-grid :gutter="10">
+  <van-grid-item v-for="value in 3" :key="value"  text="文字" />
+  </van-grid>
+  <!-- /频道推荐 -->
+</div>
 </template>
 
 <script>
@@ -45,5 +68,7 @@ export default {
 </script>
 <style lang='less' scoped>
 //@import url(); 引入公共css类
-
+  .channel_edit{
+    padding: 85px 0;
+  }
 </style>
