@@ -27,11 +27,26 @@
         <article-list :channel="channel" />
       </van-tab>
       <div slot="nav-right" class="placeholder"></div>
-      <div slot="nav-right" class="hamburger_btn">
+      <!-- 汉堡按钮 -->
+      <div
+      slot="nav-right"
+      class="hamburger_btn"
+      @click="isChannelEditShow = true"
+      >
         <i class="iconfont toutiao_gengduo" ></i>
       </div>
+      <!-- /汉堡按钮 -->
   </van-tabs>
     <!-- /频道列表 -->
+  <!-- 频道编辑弹出层 -->
+  <van-popup
+    v-model="isChannelEditShow"
+    closeable
+    position="bottom"
+    :style="{ height: '100%' }"
+    close-icon-position="top-left"
+  />
+  <!-- /频道编辑弹出层 -->
 </div>
 </template>
 
@@ -49,7 +64,8 @@ export default {
     // 这里存放数据
     return {
       active: 0,
-      channels: [] // 频道列表
+      channels: [], // 频道列表
+      isChannelEditShow: false // 控制编辑频道弹出层的显示状态
     }
   },
   // 监听属性 类似于data概念
