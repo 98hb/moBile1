@@ -2,25 +2,38 @@
 <template>
 <div class='channel_edit'>
   <van-cell :border="false">
-    <div slot="title">我的频道</div>
+    <div slot="title" class="title_text">我的频道</div>
     <van-button
     size="mini"
     type="danger"
     round
     plain
+    class="edit_btn"
     >
     编辑
     </van-button>
   </van-cell>
-  <van-grid :gutter="10">
-  <van-grid-item v-for="value in 3" :key="value"  text="文字" />
+  <van-grid class="my_grid" :gutter="10">
+  <van-grid-item
+  class="grid_item"
+  v-for="value in 3"
+  :key="value"
+  icon="clear"
+  text="文字"
+  />
   </van-grid>
   <!-- 频道推荐 -->
   <van-cell :border="false">
-    <div slot="title">频道推荐</div>
+    <div slot="title" class="title_text">频道推荐</div>
   </van-cell>
-  <van-grid :gutter="10">
-  <van-grid-item v-for="value in 3" :key="value"  text="文字" />
+  <van-grid class="recommend_grid" :gutter="10">
+  <van-grid-item
+  class="grid_item"
+  v-for="value in 8"
+  :key="value"
+  icon="plus"
+  text="文字测试"
+  />
   </van-grid>
   <!-- /频道推荐 -->
 </div>
@@ -68,7 +81,60 @@ export default {
 </script>
 <style lang='less' scoped>
 //@import url(); 引入公共css类
-  .channel_edit{
+  .channel_edit {
     padding: 85px 0;
+
+    .title_text {
+      color: #333333;
+      font-size: 32px;
+    }
+
+    .edit_btn {
+      width: 104px;
+      height: 48px;
+      font-size: 26px;
+      color: #f85959;
+      border: 1px solid #f85959;
+    }
+
+    /deep/ .my_grid {
+      .grid_item {
+        .van-icon-clear {
+          position: absolute;
+          right: -10px;
+          top: -10px;
+          font-size: 30px;
+          color: #cacaca;
+          z-index: 2;
+        }
+      }
+    }
+
+    /deep/ .grid_item { // 子组件根节点
+      width: 160px;
+      height: 86px;
+
+      .van-grid-item__content {
+        white-space: nowrap;
+        background-color: #f4f5f6;
+      } // 作用域样式 非根节点
+        .van-grid-item__text {
+          color: #222222;
+          font-size: 28px;
+          margin-top: 0;
+        }
+    }
+
+    /deep/ .recommend_grid {
+      .grid_item {
+        .van-grid-item__content {
+          flex-direction: row;
+          .van-icon-plus {
+            font-size: 28px;
+            margin-right: 6px;
+          }
+        }
+      }
+    }
   }
 </style>
