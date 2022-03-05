@@ -16,10 +16,10 @@
   <van-grid class="my_grid" :gutter="10">
   <van-grid-item
   class="grid_item"
-  v-for="value in 3"
-  :key="value"
+  v-for="(channel, index) in MyChannels"
+  :key="index"
   icon="clear"
-  text="文字"
+  :text= 'channel.name'
   />
   </van-grid>
   <!-- 频道推荐 -->
@@ -47,7 +47,12 @@ export default {
 // import引入的组件需要注入到对象中才能使用
   name: 'ChannelEdit',
   components: {},
-  props: {},
+  props: {
+    MyChannels: {
+      type: Array,
+      required: true
+    }
+  },
   data () {
     // 这里存放数据
     return {
