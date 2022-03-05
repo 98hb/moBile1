@@ -45,7 +45,9 @@
     position="bottom"
     :style="{ height: '100%' }"
     close-icon-position="top-left"
-  />
+  >
+  <ChannelEdit></ChannelEdit>
+  </van-popup>
   <!-- /频道编辑弹出层 -->
 </div>
 </template>
@@ -55,10 +57,11 @@
 // 例如：import 《组件名称》 from '《组件路径》';
 import { getUserChannels } from '@/api/user'
 import ArticleList from './components/article_list' // 注册且使用文章列表组件
+import ChannelEdit from './components/channel_edit.vue' // 注册且使用频道编辑弹出层
 export default {
 // import引入的组件需要注入到对象中才能使用
   name: 'HomeIndex',
-  components: { ArticleList }, // 注册且使用文章列表组件
+  components: { ArticleList, ChannelEdit }, // 注册且使用频道编辑组件
   props: {},
   data () {
     // 这里存放数据
