@@ -9,8 +9,9 @@
     round
     plain
     class="edit_btn"
+    @click="isEdit = !isEdit"
     >
-    编辑
+    {{ isEdit ? '完成' : '编辑'}}
     </van-button>
   </van-cell>
   <van-grid class="my_grid" :gutter="10">
@@ -18,7 +19,6 @@
     class="grid_item"
     v-for="(channel, index) in MyChannels"
     :key="index"
-    icon="clear"
   >
   <!--
     v-bind:class 语法
@@ -27,6 +27,10 @@
     true,则作用该类名
     false,不作用类名
    -->
+   <van-icon
+   v-show="isEdit && !fixedChannels.includes(channel.id) "
+   slot="icon"
+   name="clear"></van-icon>
   <span class="text"
   :class=" { active: index === active } "
   slot="text"
@@ -73,7 +77,9 @@ export default {
   data () {
     // 这里存放数据
     return {
-      allChannels: [] // 所有频道
+      allChannels: [], // 所有频道
+      isEdit: false, // 控制编辑状态的显示
+      fixedChannels: [0] // 固定频道,不允许删除
     }
   },
   // 监听属性 类似于data概念
@@ -191,6 +197,9 @@ export default {
         }
         .active {
           color: #f85959;
+        }
+        .van-grid-item__icon-wrapper {
+          position: unset;
         }
     }
 
