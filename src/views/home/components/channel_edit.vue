@@ -59,7 +59,9 @@
 <script>
 // 这里可以导入其他文件（比如：组件，工具js，第三方插件js，json文件，图片文件等等）
 // 例如：import 《组件名称》 from '《组件路径》';
-import { getAllChannels } from '@/api/channel'
+import { getAllChannels, addUserChannel } from '@/api/channel'
+import { mapState } from 'vuex'
+import { setItem } from '@/utils/storage'
 
 export default {
 // import引入的组件需要注入到对象中才能使用
@@ -85,6 +87,7 @@ export default {
   },
   // 监听属性 类似于data概念
   computed: {
+    ...mapState(['user']),
     // 计算属性会观测内部依赖数据的变化
     // 如果依赖的数据发生变化,则计算属性会重新执行
     recommendChannels () {
@@ -130,9 +133,25 @@ export default {
         this.$toast('数据获取失败')
       }
     },
-    onAddChannel (channel) {
+    async onAddChannel (channel) {
       // console.log(channel)
       this.MyChannels.push(channel)
+
+      // 数据持久化处理
+      if (this.user) {
+        try {
+          // 已登录,把数据请求接口到线上
+          await addUserChannel({
+            id: channel.id, // 频道 id
+            seq: this.MyChannels.length // 序号
+          })
+        } catch (err) {
+          this.$toast('保存失败,请稍后重试')
+        }
+      } else {
+        // 未登录,把数据存储到本地
+        setItem('TOUTIAO_CHANNLES', this.MyChannels)
+      }
     },
     onMyChannelClick (channel, index) {
       // console.log(channel, index)

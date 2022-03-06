@@ -1,3 +1,10 @@
+/**
+ * 封装本地存储操作模块
+ */
+
+/**
+ * 存储数据
+ */
 export const setItem = (key, value) => {
   if (typeof value === 'object') {
     value = JSON.stringify(value)
