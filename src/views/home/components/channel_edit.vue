@@ -19,6 +19,7 @@
     class="grid_item"
     v-for="(channel, index) in MyChannels"
     :key="index"
+    @click="onMyChannelClick(channel, index) "
   >
   <!--
     v-bind:class 语法
@@ -132,6 +133,16 @@ export default {
     onAddChannel (channel) {
       // console.log(channel)
       this.MyChannels.push(channel)
+    },
+    onMyChannelClick (channel, index) {
+      // console.log(channel, index)
+      if (this.isEdit) {
+        // 编辑状态,执行删除频道
+
+      } else {
+        // 非编辑状态,执行切换频道
+        this.$emit('update_active', index)
+      }
     }
   },
   // 生命周期 - 创建完成（可以访问当前this实例）

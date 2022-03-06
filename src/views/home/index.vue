@@ -49,6 +49,7 @@
   <channel-edit
     :my-channels="channels"
     :active="active"
+    @update_active="onUpdateActive"
   />
   <!--  // 方式一. 通过 Vue.use 注册
         // 注册完成后，在模板中通过 <van-button> 或 <VanButton> 标签来使用按钮组件 -->
@@ -91,6 +92,13 @@ export default {
       } catch (err) {
         this.$toast('获取频道数据失败')
       }
+    },
+    onUpdateActive (index) {
+      // console.log('home', index)
+      // 更新激活的频道项
+      this.active = index
+      // 关闭编辑频道弹层
+      this.isChannelEditShow = false
     }
   },
   // 生命周期 - 创建完成（可以访问当前this实例）
