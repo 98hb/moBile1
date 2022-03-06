@@ -59,7 +59,11 @@
 <script>
 // 这里可以导入其他文件（比如：组件，工具js，第三方插件js，json文件，图片文件等等）
 // 例如：import 《组件名称》 from '《组件路径》';
-import { getAllChannels, addUserChannel } from '@/api/channel'
+import {
+  getAllChannels,
+  addUserChannel,
+  deleteUserChannel
+} from '@/api/channel'
 import { mapState } from 'vuex'
 import { setItem } from '@/utils/storage'
 
@@ -160,6 +164,7 @@ export default {
         if (this.fixedChannels.includes(channel.id)) {
           return
         }
+
         // 2.删除频道项
         this.MyChannels.splice(index, 1)
 
@@ -170,9 +175,26 @@ export default {
           // 让激活频道的索引 - 1
           this.$emit('update_active', this.active - 1, true)
         }
+
+        // 4.处理持久化
+        this.deleteChannel(channel) // A 传channel
       } else {
         // 非编辑状态,执行切换频道
         this.$emit('update_active', index, false)
+      }
+    },
+
+    async deleteChannel (channel) { // A 接收channel
+      try {
+        if (this.user) {
+          // 已登录,则将数据更新到线上
+          await deleteUserChannel(channel.id)
+        } else {
+          // 未登录,将数据更新到本地
+          setItem('TOUTIAO_CHANNLES', this.MyChannels)
+        }
+      } catch (err) {
+        this.$toast('操作失败,请稍后重试')
       }
     }
   },
