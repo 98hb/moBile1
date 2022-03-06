@@ -93,12 +93,12 @@ export default {
         this.$toast('获取频道数据失败')
       }
     },
-    onUpdateActive (index) {
+    onUpdateActive (index, isChannelEditShow = true) {
       // console.log('home', index)
       // 更新激活的频道项
       this.active = index
       // 关闭编辑频道弹层
-      this.isChannelEditShow = false
+      this.isChannelEditShow = isChannelEditShow
     }
   },
   // 生命周期 - 创建完成（可以访问当前this实例）
