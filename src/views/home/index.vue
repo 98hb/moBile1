@@ -65,6 +65,8 @@
 import { getUserChannels } from '@/api/user'
 import ArticleList from './components/article_list' // 注册且使用文章列表组件
 import ChannelEdit from './components/channel_edit.vue' // 注册且使用频道编辑弹出层
+import { mapState } from 'vuex'
+import { getItem } from '@/utils/storage'
 export default {
 // import引入的组件需要注入到对象中才能使用
   name: 'HomeIndex',
@@ -79,16 +81,39 @@ export default {
     }
   },
   // 监听属性 类似于data概念
-  computed: {},
+  computed: {
+    ...mapState(['user'])
+  },
   // 监控data中的数据变化
   watch: {},
   // 方法集合
   methods: {
     async loadChannels () {
       try {
-        const { data } = await getUserChannels()
-        console.log(data)
-        this.channels = data.data.channels
+        // const { data } = await getUserChannels()
+        // console.log(data)
+        // this.channels = data.data.channels
+
+        let channels = []
+
+        if (this.user) {
+          // 已登录,请求获取用户频道列表
+          const { data } = await getUserChannels()
+          channels = data.data.channels
+        } else {
+          // 未登录,判断是否有本地的频道列表数据
+          const localChannels = getItem('TOUTIAO_CHANNELS')
+          // 有,拿来使用
+          if (localChannels) {
+            channels = localChannels
+          } else {
+            // 没有,请求获取默认频道列表
+            const { data } = await getUserChannels()
+            channels = data.data.channels
+          }
+        }
+
+        this.channels = channels
       } catch (err) {
         this.$toast('获取频道数据失败')
       }

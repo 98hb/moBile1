@@ -137,16 +137,16 @@ export default {
         this.$toast('数据获取失败')
       }
     },
+
     async onAddChannel (channel) {
-      // console.log(channel)
       this.MyChannels.push(channel)
 
       // 数据持久化处理
       if (this.user) {
         try {
-          // 已登录,把数据请求接口到线上
+          // 已登录,把数据请求接口放到线上
           await addUserChannel({
-            id: channel.id, // 频道 id
+            id: channel.id, // 频道 ID
             seq: this.MyChannels.length // 序号
           })
         } catch (err) {
@@ -154,7 +154,7 @@ export default {
         }
       } else {
         // 未登录,把数据存储到本地
-        setItem('TOUTIAO_CHANNLES', this.MyChannels)
+        setItem('TOUTIAO_CHANNELS', this.MyChannels)
       }
     },
     onMyChannelClick (channel, index) {
@@ -184,14 +184,14 @@ export default {
       }
     },
 
-    async deleteChannel (channel) { // A 接收channel
+    async deleteChannel (channel) {
       try {
         if (this.user) {
           // 已登录,则将数据更新到线上
           await deleteUserChannel(channel.id)
         } else {
           // 未登录,将数据更新到本地
-          setItem('TOUTIAO_CHANNLES', this.MyChannels)
+          setItem('TOUTIAO_CHANNELS', this.MyChannels)
         }
       } catch (err) {
         this.$toast('操作失败,请稍后重试')
