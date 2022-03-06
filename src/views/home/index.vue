@@ -46,7 +46,10 @@
     :style="{ height: '100%' }"
     close-icon-position="top-left"
   >
-  <channel-edit :my-channels="channels" />
+  <channel-edit
+    :my-channels="channels"
+    :active="active"
+  />
   <!--  // 方式一. 通过 Vue.use 注册
         // 注册完成后，在模板中通过 <van-button> 或 <VanButton> 标签来使用按钮组件 -->
   <!-- <ChannelEdit></ChannelEdit> -->

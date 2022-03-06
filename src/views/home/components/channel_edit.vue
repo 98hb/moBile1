@@ -15,12 +15,23 @@
   </van-cell>
   <van-grid class="my_grid" :gutter="10">
   <van-grid-item
-  class="grid_item"
-  v-for="(channel, index) in MyChannels"
-  :key="index"
-  icon="clear"
-  :text= 'channel.name'
-  />
+    class="grid_item"
+    v-for="(channel, index) in MyChannels"
+    :key="index"
+    icon="clear"
+  >
+  <!--
+    v-bind:class 语法
+    一个对象，对象中的 key 表示要作用的 CSS 类名
+    对象中的 value 要计算出布尔值
+    true,则作用该类名
+    false,不作用类名
+   -->
+  <span class="text"
+  :class=" { active: index === active } "
+  slot="text"
+  >{{channel.name}}</span>
+  </van-grid-item>
   </van-grid>
   <!-- 频道推荐 -->
   <van-cell :border="false">
@@ -28,12 +39,12 @@
   </van-cell>
   <van-grid class="recommend_grid" :gutter="10">
   <van-grid-item
-  class="grid_item"
-  v-for="value in 8"
-  :key="value"
-  icon="plus"
-  text="文字测试"
-  />
+    class="grid_item"
+    v-for="value in 8"
+    :key="value"
+    icon="plus"
+    text="文字测试"
+    />
   </van-grid>
   <!-- /频道推荐 -->
 </div>
@@ -50,6 +61,10 @@ export default {
   props: {
     MyChannels: {
       type: Array,
+      required: true
+    },
+    active: {
+      type: Number,
       required: true
     }
   },
@@ -123,10 +138,13 @@ export default {
         white-space: nowrap;
         background-color: #f4f5f6;
       } // 作用域样式 非根节点
-        .van-grid-item__text {
+        .van-grid-item__text, .text {
           color: #222222;
           font-size: 28px;
           margin-top: 0;
+        }
+        .active {
+          color: #f85959;
         }
     }
 
