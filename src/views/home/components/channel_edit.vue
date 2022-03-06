@@ -38,14 +38,15 @@
     <div slot="title" class="title_text">频道推荐</div>
   </van-cell>
   <van-grid class="recommend_grid" :gutter="10">
-  <van-grid-item
-    class="grid_item"
-    v-for="(channel, index) in recommendChannels"
-    :key="index"
-    icon="plus"
-    :text="channel.name"
+    <van-grid-item
+      class="grid_item"
+      v-for="(channel, index) in recommendChannels"
+      :key="index"
+      icon="plus"
+      :text="channel.name"
+      @click="onAddChannel(channel) "
     />
-  </van-grid>
+    </van-grid>
   <!-- /频道推荐 -->
 </div>
 </template>
@@ -77,7 +78,10 @@ export default {
   },
   // 监听属性 类似于data概念
   computed: {
+    // 计算属性会观测内部依赖数据的变化
+    // 如果依赖的数据发生变化,则计算属性会重新执行
     recommendChannels () {
+      console.log('测试执行计算次数')
       // 数组的 filter 方法: 遍历数组,把符合条件的元素存储到新数组中并返回
       return this.allChannels.filter(channel => {
         // const channels = []
@@ -118,6 +122,10 @@ export default {
       } catch (err) {
         this.$toast('数据获取失败')
       }
+    },
+    onAddChannel (channel) {
+      // console.log(channel)
+      this.MyChannels.push(channel)
     }
   },
   // 生命周期 - 创建完成（可以访问当前this实例）
