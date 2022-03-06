@@ -91,28 +91,24 @@ export default {
     async loadChannels () {
       try {
         // const { data } = await getUserChannels()
-        // console.log(data)
         // this.channels = data.data.channels
-
         let channels = []
-
         if (this.user) {
           // 已登录,请求获取用户频道列表
           const { data } = await getUserChannels()
           channels = data.data.channels
         } else {
           // 未登录,判断是否有本地的频道列表数据
-          const localChannels = getItem('TOUTIAO_CHANNELS')
+          const loadChannels = getItem('TOUTIAO_CHANNELS')
           // 有,拿来使用
-          if (localChannels) {
-            channels = localChannels
+          if (loadChannels) {
+            channels = loadChannels
           } else {
-            // 没有,请求获取默认频道列表
+            // 无,请求获取默认频道列表
             const { data } = await getUserChannels()
             channels = data.data.channels
           }
         }
-
         this.channels = channels
       } catch (err) {
         this.$toast('获取频道数据失败')
