@@ -18,7 +18,12 @@ export default {
 // import引入的组件需要注入到对象中才能使用
   name: 'SearchSuggestion',
   components: {},
-  props: {},
+  props: {
+    searchText: {
+      type: String,
+      required: true
+    }
+  },
   data () {
     // 这里存放数据
     return {
@@ -28,7 +33,16 @@ export default {
   // 监听属性 类似于data概念
   computed: {},
   // 监控data中的数据变化
-  watch: {},
+  watch: {
+    searchText: {
+      // 当 searchText 发送改变的时候就会调用 handler 函数
+      // 注意: handler 函数名称是固定的
+      handler (value) {
+        console.log(value)
+      },
+      immediate: true // 该回调将会在侦听开始之后被立即调用
+    }
+  },
   // 方法集合
   methods: {
 
