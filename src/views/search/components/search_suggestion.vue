@@ -15,6 +15,8 @@
 // 这里可以导入其他文件（比如：组件，工具js，第三方插件js，json文件，图片文件等等）
 // 例如：import 《组件名称》 from '《组件路径》';
 import { getSearchSuggestions } from '@/api/search'
+// 按需加载有好处: 只会把使用到的成员打包到结果中
+import { debounce } from 'lodash'
 export default {
 // import引入的组件需要注入到对象中才能使用
   name: 'SearchSuggestion',
@@ -38,10 +40,13 @@ export default {
     searchText: {
       // 当 searchText 发送改变的时候就会调用 handler 函数
       // 注意: handler 函数名称是固定的
-      handler (value) {
-        // console.log(value)
-        this.loadSearchSuggestions(value)
-      },
+      // handler (value) {
+      //   // console.log(value)
+      //   this.loadSearchSuggestions(value)
+      // },
+      handler: debounce(function (value) {
+        console.log(value)
+      }, 200),
       immediate: true // 该回调将会在侦听开始之后被立即调用
     }
   },
