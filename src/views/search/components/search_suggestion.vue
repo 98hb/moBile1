@@ -1,11 +1,12 @@
 <!--  -->
 <template>
 <div class='search_suggestion'>
-    <van-cell title="联想建议"  icon="search"></van-cell>
-    <van-cell title="联想建议"  icon="search"></van-cell>
-    <van-cell title="联想建议"  icon="search"></van-cell>
-    <van-cell title="联想建议"  icon="search"></van-cell>
-    <van-cell title="联想建议"  icon="search"></van-cell>
+    <van-cell
+      :title="text"
+      icon="search"
+      v-for="(text,index) in Suggestions"
+      :key="index"
+    ></van-cell>
 
 </div>
 </template>
@@ -13,7 +14,7 @@
 <script>
 // 这里可以导入其他文件（比如：组件，工具js，第三方插件js，json文件，图片文件等等）
 // 例如：import 《组件名称》 from '《组件路径》';
-
+import { getSearchSuggestions } from '@/api/search'
 export default {
 // import引入的组件需要注入到对象中才能使用
   name: 'SearchSuggestion',
@@ -27,7 +28,7 @@ export default {
   data () {
     // 这里存放数据
     return {
-
+      Suggestions: [] // 联想建议数据列表
     }
   },
   // 监听属性 类似于data概念
@@ -38,14 +39,23 @@ export default {
       // 当 searchText 发送改变的时候就会调用 handler 函数
       // 注意: handler 函数名称是固定的
       handler (value) {
-        console.log(value)
+        // console.log(value)
+        this.loadSearchSuggestions(value)
       },
       immediate: true // 该回调将会在侦听开始之后被立即调用
     }
   },
   // 方法集合
   methods: {
-
+    async loadSearchSuggestions (q) {
+      try {
+        const { data } = await getSearchSuggestions(q)
+        // console.log(data)
+        this.Suggestions = data.data.options
+      } catch (err) {
+        this.$toast('数据获取失败,请稍后重试')
+      }
+    }
   },
   // 生命周期 - 创建完成（可以访问当前this实例）
   created () {
