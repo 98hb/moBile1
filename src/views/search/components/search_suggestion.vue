@@ -45,7 +45,8 @@ export default {
       //   this.loadSearchSuggestions(value)
       // },
       handler: debounce(function (value) {
-        console.log(value)
+        // console.log(value)
+        this.loadSearchSuggestions(value)
       }, 200),
       immediate: true // 该回调将会在侦听开始之后被立即调用
     }
