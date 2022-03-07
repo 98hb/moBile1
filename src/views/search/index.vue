@@ -9,22 +9,23 @@
           placeholder="请输入搜索关键词"
           @search="onSearch"
           @cancel="onCancel"
+          @focus="isResultShow=false"
           background="#3296fa"
         />
       </form>
     <!-- /顶部搜索栏 -->
 
-    <!-- 搜索历史记录 -->
-    <search-history/>
-    <!-- /搜索历史记录 -->
+    <!-- 搜索结果 -->
+    <search-result v-if="isResultShow" />
+    <!-- /搜索结果 -->
 
     <!-- 联想建议 -->
-    <search-suggestion/>
+    <search-suggestion v-else-if="searchText"/>
     <!-- /联想建议 -->
 
-    <!-- 搜索结果 -->
-    <search-result/>
-    <!-- /搜索结果 -->
+    <!-- 搜索历史记录 -->
+    <search-history v-else/>
+    <!-- /搜索历史记录 -->
 
 </div>
 </template>
@@ -43,7 +44,8 @@ export default {
   data () {
     // 这里存放数据
     return {
-      searchText: ''
+      searchText: '', // 搜索联想
+      isResultShow: false // 控制搜索结果的展示
     }
   },
   // 监听属性 类似于data概念
@@ -54,6 +56,7 @@ export default {
   methods: {
     onSearch (val) {
       console.log(val)
+      this.isResultShow = true
     },
     onCancel () {
       // console.log('onCancel')
