@@ -6,7 +6,7 @@
       v-for="(text,index) in Suggestions"
       :key="index"
     >
-  <div slot="title" v-html="text" ></div>
+  <div slot="title" v-html="highlight(text)"></div>
     </van-cell>
     <!-- 双花括号会默认输出纯文本内容 -->
   <!-- <div>{{htmlStr}} </div> -->
@@ -34,8 +34,8 @@ export default {
   data () {
     // 这里存放数据
     return {
-      Suggestions: [], // 联想建议数据列表
-      htmlStr: 'Hello<span style="color: red">world</span>'
+      Suggestions: [] // 联想建议数据列表
+      // htmlStr: 'Hello<span style="color: red">world</span>'
     }
   },
   // 监听属性 类似于data概念
@@ -66,6 +66,18 @@ export default {
       } catch (err) {
         this.$toast('数据获取失败,请稍后重试')
       }
+    },
+    highlight (text) {
+      // console.log(text)
+      const highlightStr = `<span class="active">${this.searchText}</span>`
+      // 正则表达式 // 中间的内容都会当作匹配字符来使用, 而不是数据变量
+      // 如果需要根据变量动态地创建正则表达式,则手动 new RegExp
+      // RegExp 正则表达式构造函数
+      //  参数1: 匹配模式字符串, 它会根据这个字符串创建正则对象
+      //  参数2：匹配模式，要写到字符串中
+      const reg = new RegExp(this.searchText, 'gi')
+      return text.replace(reg, highlightStr) // replace 返回一个替换后的新字符串
+      // return '测试内容'
     }
   },
   // 生命周期 - 创建完成（可以访问当前this实例）
@@ -87,5 +99,9 @@ export default {
 </script>
 <style lang='less' scoped>
 //@import url(); 引入公共css类
-
+.search_suggestion {
+  /deep/ span.active {
+    color: #3296fa
+  }
+}
 </style>
