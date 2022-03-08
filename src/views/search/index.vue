@@ -16,13 +16,17 @@
     <!-- /顶部搜索栏 -->
 
     <!-- 搜索结果 -->
-    <search-result v-if="isResultShow" />
+    <search-result
+      v-if="isResultShow"
+      :search-text="searchText"
+    />
     <!-- /搜索结果 -->
 
     <!-- 联想建议 -->
     <search-suggestion
       v-else-if="searchText"
       :search-text="searchText"
+      @search="onSearch"
       />
     <!-- /联想建议 -->
 
@@ -58,7 +62,8 @@ export default {
   // 方法集合
   methods: {
     onSearch (val) {
-      console.log(val)
+      // console.log(val)
+      this.searchText = val
       this.isResultShow = true
     },
     onCancel () {

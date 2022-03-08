@@ -20,7 +20,12 @@ export default {
 // import引入的组件需要注入到对象中才能使用
   name: 'SearchResult',
   components: {},
-  props: {},
+  props: {
+    searchText: {
+      type: String,
+      required: true
+    }
+  },
   data () {
     // 这里存放数据
     return {
