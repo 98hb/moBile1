@@ -2,12 +2,16 @@
 <template>
 <div class='search_suggestion'>
     <van-cell
-      :title="text"
       icon="search"
       v-for="(text,index) in Suggestions"
       :key="index"
-    ></van-cell>
-
+    >
+  <div slot="title" v-html="text" ></div>
+    </van-cell>
+    <!-- 双花括号会默认输出纯文本内容 -->
+  <!-- <div>{{htmlStr}} </div> -->
+  <!-- 使用 v-html 指令可以绑定渲染带有 html 标签的字符串 -->
+  <!-- <div v-html="htmlStr"></div> -->
 </div>
 </template>
 
@@ -30,7 +34,8 @@ export default {
   data () {
     // 这里存放数据
     return {
-      Suggestions: [] // 联想建议数据列表
+      Suggestions: [], // 联想建议数据列表
+      htmlStr: 'Hello<span style="color: red">world</span>'
     }
   },
   // 监听属性 类似于data概念
