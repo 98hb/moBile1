@@ -95,7 +95,7 @@ export default {
     // 计算属性会观测内部依赖数据的变化
     // 如果依赖的数据发生变化,则计算属性会重新执行
     recommendChannels () {
-      console.log('测试执行计算次数')
+      // console.log('测试执行计算次数')
       // 数组的 filter 方法: 遍历数组,把符合条件的元素存储到新数组中并返回
       return this.allChannels.filter(channel => {
         // const channels = []

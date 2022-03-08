@@ -2,7 +2,7 @@
 <template>
 <div class='search_container'>
     <!-- 顶部搜索栏 -->
-      <form action="/">
+      <form class="search_form" action="/">
         <van-search
           v-model="searchText"
           show-action
@@ -91,8 +91,16 @@ export default {
 <style lang='less' scoped>
 //@import url(); 引入公共css类
 .search_container {
+  padding-top: 108px;
   .van-search__action {
     color: #fff;
+  }
+  .search_form {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1;
   }
 }
 </style>

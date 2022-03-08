@@ -5,9 +5,15 @@
     v-model="loading"
     :finished="finished"
     finished-text="没有更多了"
+    :error.sync="error"
+    error-text="加载失败,请点击重试"
     @load="onLoad"
   >
-    <van-cell v-for="item in list" :key="item" :title="item" />
+    <van-cell
+      v-for="(article, index) in list"
+      :key="index"
+      :title="article.title"
+    />
   </van-list>
 </div>
 </template>
@@ -15,7 +21,7 @@
 <script>
 // 这里可以导入其他文件（比如：组件，工具js，第三方插件js，json文件，图片文件等等）
 // 例如：import 《组件名称》 from '《组件路径》';
-
+import { getSearchResult } from '@/api/search'
 export default {
 // import引入的组件需要注入到对象中才能使用
   name: 'SearchResult',
@@ -31,7 +37,10 @@ export default {
     return {
       list: [],
       loading: false,
-      finished: false
+      finished: false,
+      page: 1,
+      perPage: 20,
+      error: false
     }
   },
   // 监听属性 类似于data概念
@@ -40,22 +49,39 @@ export default {
   watch: {},
   // 方法集合
   methods: {
-    onLoad () {
-      // 异步更新数据
-      // setTimeout 仅做示例，真实场景中一般为 ajax 请求
-      setTimeout(() => {
-        for (let i = 0; i < 10; i++) {
-          this.list.push(this.list.length + 1)
-        }
-
-        // 加载状态结束
+    async onLoad () {
+      try {
+        // 1.请求获取数据
+        const { data } = await getSearchResult({
+          page: this.page, // 页数
+          per_page: this.perPage, // 每页数量
+          q: this.searchText // 查询
+        })
+        // if (Math.random() > 0.5) { // 模拟随机失败的情况
+        //   JSON.parse('dlsadfag')
+        // } // 测试完即可注释
+        // console.log(data)
+        // 2.将数据添加到数组列表中
+        const { results } = data.data
+        this.list.push(...results)
+        // 3.将本次加载中的 loading 关闭
         this.loading = false
 
-        // 数据全部加载完成
-        if (this.list.length >= 40) {
+        // 4.判断是否还有数据
+        if (results.length) {
+          //    如果有,则更新获取下一个数据的页码
+          this.page++
+        } else {
+          //    如果没有,则将加载状态 finished 设置为结束
           this.finished = true
         }
-      }, 1000)
+      } catch (err) {
+        // 展示加载失败的提示状态
+        this.error = true
+        // 加载失败了 loading 也要关闭
+        this.loading = false
+        // this.$toast('数据获取失败,请稍后重试')
+      }
     }
   },
   // 生命周期 - 创建完成（可以访问当前this实例）

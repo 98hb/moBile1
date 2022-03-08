@@ -129,7 +129,7 @@ export default {
       }
     },
     async onSendSms () {
-      console.log('onSendSms')
+      // console.log('onSendSms')
       try {
         await this.$refs.loginForm.validate('mobile')
         // console.log('验证通过')

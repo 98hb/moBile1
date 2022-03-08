@@ -70,6 +70,7 @@ export default {
     },
     highlight (text) {
       // console.log(text)
+      if (!text) return
       const highlightStr = `<span class="active">${this.searchText}</span>`
       // 正则表达式 // 中间的内容都会当作匹配字符来使用, 而不是数据变量
       // 如果需要根据变量动态地创建正则表达式,则手动 new RegExp
