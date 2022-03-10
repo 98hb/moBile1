@@ -2,16 +2,20 @@
 <template>
 <div class='search_history'>
   <van-cell title="搜索历史">
-    <span>全部删除</span>
-    <span>完成</span>
-    <van-icon name="delete" />
+    <div v-if="isDeleteShow">
+      <span>全部删除</span>
+      &nbsp;&nbsp;
+      <span @click="isDeleteShow = false">完成</span>
+
+    </div>
+    <van-icon v-else  name="delete" @click="isDeleteShow = true" />
   </van-cell>
   <van-cell
     :title="item"
     v-for="(item,index) in searchHistories"
     :key="index"
   >
-    <van-icon name="close" />
+    <van-icon v-show="isDeleteShow" name="close" />
   </van-cell>
 </div>
 </template>
@@ -33,7 +37,7 @@ export default {
   data () {
     // 这里存放数据
     return {
-
+      isDeleteShow: false // 控制删除显示状态
     }
   },
   // 监听属性 类似于data概念
