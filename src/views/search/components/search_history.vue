@@ -6,13 +6,11 @@
     <span>完成</span>
     <van-icon name="delete" />
   </van-cell>
-  <van-cell title="hello">
-    <van-icon name="close" />
-  </van-cell>
-  <van-cell title="hello">
-    <van-icon name="close" />
-  </van-cell>
-  <van-cell title="hello">
+  <van-cell
+    :title="item"
+    v-for="(item,index) in searchHistories"
+    :key="index"
+  >
     <van-icon name="close" />
   </van-cell>
 </div>
@@ -26,7 +24,12 @@ export default {
 // import引入的组件需要注入到对象中才能使用
   name: 'SearchHistory',
   components: {},
-  props: {},
+  props: {
+    searchHistories: {
+      type: Array,
+      required: true
+    }
+  },
   data () {
     // 这里存放数据
     return {
