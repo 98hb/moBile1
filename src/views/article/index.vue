@@ -11,7 +11,12 @@ export default {
 // import引入的组件需要注入到对象中才能使用
   name: 'ArticleIndex',
   components: {},
-  props: {},
+  props: {
+    articleId: {
+      type: [Number, String],
+      required: true
+    }
+  },
   data () {
     // 这里存放数据
     return {
