@@ -48,6 +48,7 @@
 import SearchHistory from './components/search_history'
 import SearchResult from './components/search_result'
 import SearchSuggestion from './components/search_suggestion'
+import { setItem, getItem } from '@/utils/storage'
 export default {
 // import引入的组件需要注入到对象中才能使用
   name: 'SearchIndex',
@@ -58,13 +59,19 @@ export default {
     return {
       searchText: '', // 搜索联想
       isResultShow: false, // 控制搜索结果的展示
-      searchHistories: [] // 搜索的历史记录数据
+      // searchHistories: [] // 搜索的历史记录数据
+      searchHistories: getItem('TOUTIAO_SEARCH_HISTORIES') || [] // 搜索的历史记录数据
     }
   },
   // 监听属性 类似于data概念
   computed: {},
   // 监控data中的数据变化
-  watch: {},
+  watch: {
+    searchHistories (value) {
+      // console.log('测试能否监听')
+      setItem('TOUTIAO_SEARCH_HISTORIES', value)
+    }
+  },
   // 方法集合
   methods: {
     onSearch (val) {
