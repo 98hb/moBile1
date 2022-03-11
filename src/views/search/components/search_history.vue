@@ -3,7 +3,7 @@
 <div class='search_history'>
   <van-cell title="搜索历史">
     <div v-if="isDeleteShow">
-      <span>全部删除</span>
+      <span @click="$emit('clear_search_histories', [])">全部删除</span>
       &nbsp;&nbsp;
       <span @click="isDeleteShow = false">完成</span>
 
@@ -14,6 +14,7 @@
     :title="item"
     v-for="(item,index) in searchHistories"
     :key="index"
+    @click="onSearchItemClick(item,index)"
   >
     <van-icon v-show="isDeleteShow" name="close" />
   </van-cell>
@@ -28,7 +29,13 @@ export default {
 // import引入的组件需要注入到对象中才能使用
   name: 'SearchHistory',
   components: {},
-  props: {
+  props: { // 只可以赋值，不可以修改
+  // Prop 数据
+  // Prop 是受父组件数据影响的
+  // 如果是普通数据 (数字、字符串、布尔值) 绝对不能修改，即便修改了也不会传导给父组件
+  // 如果是引用类型数据 (数组、对象)
+  // 可以修改,例如 [] .push , 对象 .xxx = xxx
+  // 不能重新赋值, xxx = []
     searchHistories: {
       type: Array,
       required: true
@@ -46,7 +53,15 @@ export default {
   watch: {},
   // 方法集合
   methods: {
-
+    onSearchItemClick (item, index) {
+      if (this.isDeleteShow) {
+        // 删除状态,删除历史记录数据
+        this.searchHistories.splice(index, 1)
+      } else {
+        // 非删除状态,直接进入搜索
+        this.$emit('search', item)
+      }
+    }
   },
   // 生命周期 - 创建完成（可以访问当前this实例）
   created () {

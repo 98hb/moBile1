@@ -34,6 +34,8 @@
     <search-history
       v-else
       :search-histories="searchHistories"
+      @clear_search_histories="searchHistories = [] "
+      @search="onSearch"
     />
     <!-- /搜索历史记录 -->
 
