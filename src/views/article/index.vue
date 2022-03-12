@@ -96,6 +96,20 @@
 // 这里可以导入其他文件（比如：组件，工具js，第三方插件js，json文件，图片文件等等）
 // 例如：import 《组件名称》 from '《组件路径》';
 import { getArticleById } from '@/api/article'
+import { ImagePreview } from 'vant'
+ImagePreview({
+  images: [
+    'https://img.yzcdn.cn/vant/apple-1.jpg',
+    'https://img.yzcdn.cn/vant/apple-2.jpg'
+  ],
+  // 预览图片的起始位置,从0开始
+  startPosition: 1,
+  // 点击关闭
+  onClose () {
+    // do something
+    console.log('onClose')
+  }
+})
 export default {
 // import引入的组件需要注入到对象中才能使用
   name: 'ArticleIndex',
@@ -130,7 +144,7 @@ export default {
         // }
         // console.log(data)
         this.article = data.data
-        console.log(this.article)
+        // console.log(this.article)
         // 请求成功,关闭loading
         // this.loading = false
       } catch (err) {
