@@ -10,20 +10,19 @@
   ></van-nav-bar>
   <!-- /NavBar导航栏 -->
   <div class="main_wrap">
-    <div class="loading_wrap">
-        <!-- Loading加载 -->
+        <!-- 1加载中Loading加载 -->
+    <div v-if="loading" class="loading_wrap">
       <van-loading
         color="#3297fa"
         vertical
       >
-      加载中
-      </van-loading>
-      <!-- /Loading加载 -->
+      加载中</van-loading>
     </div>
-    <!-- 加载完成-文章详情 -->
-    <div class="articl_detail">
+      <!-- /1加载中Loading加载 -->
+    <!-- 2加载完成-文章详情 -->
+    <div v-else-if="article.title" class="article_detail">
       <!-- 文章标题 -->
-      <h1 class="article_title">这是文章标题</h1>
+      <h1 class="article_title">{{article.title}}</h1>
       <!-- /文章标题 -->
       <!-- 用户信息 -->
       <van-cell class="user_info" center :border="false">
@@ -32,10 +31,10 @@
           slot="icon"
           round
           fit="cover"
-          src="https://img.yzcdn.cn/vant/cat.jpeg"
+          :src="article.aut_photo"
         />
-        <div slot="title" class="user_name">黑马头条号</div>
-        <div slot="label" class="publish_date">14小时前</div>
+        <div slot="title" class="user_name">{{ article.aut_name }}</div>
+        <div slot="label" class="publish_date">{{ article.pubdate | relativeTime }}</div>
           <van-button
             class="follow_btn"
             type="info"
@@ -56,21 +55,24 @@
       </van-cell>
       <!-- /用户信息 -->
       <!-- 文章内容 -->
-      <div class="article_content">这是文章内容结束</div>
-      <vam-divider>正文结束</vam-divider>
+      <div class="article_content" v-html="article.content"></div>
+      <van-divider>正文结束</van-divider>
       <!-- /文章内容 -->
     </div>
-    <!-- /加载完成-文章详情 -->
-    <!-- 加载失败:404 -->
-      <div class="error_wrap">
+    <!-- /2加载完成-文章详情 -->
+    <!-- 3加载失败:404 -->
+      <div v-else-if="errStatus === 404" class="error_wrap">
         <van-icon name="failure" />
         <p class="text">该资源不存在或已删除！</p>
       </div>
-    <!-- /加载失败:404 -->
-      <div class="error_wrap">
+    <!-- /3加载失败:404 -->
+      <div v-else class="error_wrap">
         <van-icon name="failure" />
         <p class="text">内容加载失败!</p>
-        <van-button class="retry_btn">点击重试</van-button>
+        <van-button
+          class="retry_btn"
+          @click="loadArticle"
+        >点击重试</van-button>
       </div>
   </div>
       <!-- /加载失败: 其它未知错误 (例如网络原因或服务器端异常) -->
@@ -90,21 +92,23 @@
 <script>
 // 这里可以导入其他文件（比如：组件，工具js，第三方插件js，json文件，图片文件等等）
 // 例如：import 《组件名称》 from '《组件路径》';
-
+import { getArticleById } from '@/api/article'
 export default {
 // import引入的组件需要注入到对象中才能使用
   name: 'ArticleIndex',
   components: {},
   props: {
     articleId: {
-      type: [Number, String],
+      type: [Number, String, Object],
       required: true
     }
   },
   data () {
     // 这里存放数据
     return {
-
+      article: {}, // 文章详情
+      loading: true, // 加载中的 loading 状态
+      errStatus: 0 // 失败的状态码
     }
   },
   // 监听属性 类似于data概念
@@ -113,7 +117,30 @@ export default {
   watch: {},
   // 方法集合
   methods: {
-
+    async loadArticle () {
+      // 展示 loading 加载中
+      this.loading = true
+      try {
+        const { data } = await getArticleById(this.articleId)
+        // if (Math.random() > 0.5) {
+        //   JSON.parse('lasjglaijsdgl')
+        // }
+        // console.log(data)
+        this.article = data.data
+        console.log(this.article)
+        // 请求成功,关闭loading
+        // this.loading = false
+      } catch (err) {
+        if (err.response && err.response.status === 404) {
+          this.errStatus = 404
+        }
+        // 请求失败,关闭loading
+        // this.loading = false
+        console.log('获取数据失败', err)
+      }
+      // 无论请求成功失败,都关闭loading
+      this.loading = false
+    }
   },
   // 生命周期 - 创建完成（可以访问当前this实例）
   created () {
@@ -121,7 +148,7 @@ export default {
   },
   // 生命周期 - 挂载完成（可以访问DOM元素）
   mounted () {
-
+    this.loadArticle()
   },
   beforeCreate () {}, // 生命周期 - 创建之前
   beforeMount () {}, // 生命周期 - 挂载之前
@@ -150,7 +177,7 @@ export default {
       justify-content: center;
       background-color: #fff;
   }
-  .articl_detail {
+  .article_detail {
       position: fixed;
       left: 0;
       right: 0;
@@ -159,7 +186,7 @@ export default {
       overflow-y: scroll;
       background-color: #fff;
       .article_title {
-          font-style: 40px;
+          font-size: 40px;
           padding: 50px 32px;
           margin: 0;
           color: #3a3a3a;
@@ -192,7 +219,7 @@ export default {
       .article_content {
           padding: 55px 32px;
           /deep/ p {
-              text-align: justify;
+            text-align: justify;
           }
       }
   }
