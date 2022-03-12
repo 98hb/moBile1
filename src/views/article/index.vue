@@ -55,7 +55,10 @@
       </van-cell>
       <!-- /用户信息 -->
       <!-- 文章内容 -->
-      <div class="article_content" v-html="article.content"></div>
+      <div
+        class="article_content markdown-body"
+        v-html="article.content"
+      ></div>
       <van-divider>正文结束</van-divider>
       <!-- /文章内容 -->
     </div>
@@ -161,6 +164,7 @@ export default {
 </script>
 <style lang='less' scoped>
 //@import url(); 引入公共css类
+@import "./github-markdown.css";
 .article_container {
   .main_wrap {
       position: fixed;
