@@ -6,6 +6,8 @@ import store from '@/store'
 
 const request = axios.create({
   baseURL: 'http://toutiao.itheima.net'
+  // baseURL: 'http://geek.itheima.net'
+  // baseURL: 'http://toutiao-app.itheima.net'
 })
 // 请求拦截器
 // Add a request interceptor

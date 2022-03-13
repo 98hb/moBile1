@@ -87,8 +87,10 @@
       ></div>
       <van-divider>正文结束</van-divider>
       <!-- 文章评论列表 -->
+      <CommentList
+        :source="article.art_id"
+      />
       <!-- /文章评论列表 -->
-      <CommentList/>
       <!-- 底部区域 -->
       <div class="article_bottom">
         <van-button class="comment_btn" type="default" round size="small">写评论
