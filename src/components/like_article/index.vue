@@ -13,7 +13,7 @@
 <script>
 // 这里可以导入其他文件（比如：组件，工具js，第三方插件js，json文件，图片文件等等）
 // 例如：import 《组件名称》 from '《组件路径》';
-
+import { addLike, deleteLike } from '@/api/article'
 export default {
 // import引入的组件需要注入到对象中才能使用
   name: 'like_article',
@@ -21,6 +21,10 @@ export default {
   props: {
     value: {
       type: Number,
+      required: true
+    },
+    article_id: {
+      type: [Number, String, Object],
       required: true
     }
   },
@@ -36,8 +40,27 @@ export default {
   watch: {},
   // 方法集合
   methods: {
-    onCollect () {
-      console.log('onCollect')
+    async onCollect () {
+      //   console.log('onCollect')
+      this.loading = true
+      try {
+        let status = -1
+        if (this.value === 1) {
+          // 已点赞，取消点赞
+          await deleteLike(this.article_id)
+        } else {
+          // 没有点赞,添加点赞
+          await addLike(this.article_id)
+          status = 1
+        }
+        // 更新视图
+        this.$emit('input', status)
+        this.$toast.success(status === 1 ? '点赞成功' : '取消点赞')
+      } catch (err) {
+        console.log(err)
+        this.$toast.fail('操作失败,请重试!')
+      }
+      this.loading = false
     }
   },
   // 生命周期 - 创建完成（可以访问当前this实例）
