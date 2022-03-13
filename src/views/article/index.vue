@@ -35,12 +35,24 @@
         />
         <div slot="title" class="user_name">{{ article.aut_name }}</div>
         <div slot="label" class="publish_date">{{ article.pubdate | relativeTime }}</div>
-        <!-- 模板中的 $event 是时间参数 -->
+        <!-- 模板中的 $event 是事件参数
+              当我们传递给子组件的数据既要使用还要修改。
+                传递: props
+                  :is_followed="article.is_followed"
+                修改: 自定义事件
+                  @update_is_followed="article.is_followed = $event"
+                简写: 组件上使用  v-model
+                  value="article.is_followed"
+                  @input="article.is_followed = $event"
+                如果需要修改 v-model 的规则名称,可以通过子组件的 model
+                一个组件上只能使用一次 v-model
+                如果有多个数据需要实现类似于 v-model 的效果,如何操作？
+                可以使用属性的 .sync 修饰符(.sync 可以使用多次)
+         -->
         <FollowUser
           class="follow_btn"
-          :is_followed="article.is_followed"
+          v-model="article.is_followed"
           :user_id="article.aut_id"
-          @update_is_followed="article.is_followed = $event"
         />
           <!-- <van-button
             v-if="article.is_followed"

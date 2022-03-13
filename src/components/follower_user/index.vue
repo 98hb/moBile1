@@ -33,6 +33,11 @@ export default {
 // import引入的组件需要注入到对象中才能使用
   name: 'FollowUser',
   components: {},
+  // 自定义 v-model 的数据名称
+  model: {
+    prop: 'is_followed', // 默认是value
+    event: 'update_is_followed' // 默认是 input
+  },
   props: {
     is_followed: {
       type: Boolean,
@@ -63,16 +68,17 @@ export default {
           // const { data } = await deleteFollow(this.article.aut_id)
           // console.log(data)
           await deleteFollow(this.user_id)
-          // this.article.is_followed = false
+          // this.article.value = false
         } else {
           // 没有关注,添加关注
           // const { data } = await addFollow(this.article.aut_id)
           // console.log(data)
           await addFollow(this.user_id)
-          // this.article.is_followed = true
+          // this.article.value = true
         }
         // 更新视图状态
-        // this.article.is_followed = !this.article.is_followed
+        // this.article.value = !this.article.value
+        // this.$emit('update_value', !this.value)
         this.$emit('update_is_followed', !this.is_followed)
       } catch (err) {
         console.log(err)
