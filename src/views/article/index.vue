@@ -110,7 +110,7 @@
         <van-button class="comment_btn" type="default" round size="small">写评论
         </van-button>
         <van-icon class="comment_icon" name="comment_o" badge="123"></van-icon>
-        <van-button class="btn_item"  icon="star-o" />
+        <CollectArticle class="btn_item" />
         <van-button class="btn_item"  icon="good-job-o" />
         <van-icon name="share" color="#777777"></van-icon>
       </div>
@@ -124,10 +124,11 @@
 import { getArticleById } from '@/api/article'
 import { ImagePreview } from 'vant'
 import FollowUser from '@/components/follower_user'
+import CollectArticle from '@/components/collect_article'
 export default {
 // import引入的组件需要注入到对象中才能使用
   name: 'ArticleIndex',
-  components: { FollowUser },
+  components: { FollowUser, CollectArticle },
   props: {
     articleId: {
       type: [Number, String, Object],
