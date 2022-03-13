@@ -40,6 +40,7 @@
             class="follow_btn"
             round
             size="small"
+            :loading="followLoading"
             @click="onFollow"
           >
               已关注
@@ -52,6 +53,7 @@
             round
             size="small"
             icon="plus"
+            :loading="followLoading"
             @click="onFollow"
           >
               关注
@@ -118,7 +120,8 @@ export default {
     return {
       article: {}, // 文章详情
       loading: true, // 加载中的 loading 状态
-      errStatus: 0 // 失败的状态码
+      errStatus: 0, // 失败的状态码
+      followLoading: false
     }
   },
   // 监听属性 类似于data概念
@@ -181,6 +184,7 @@ export default {
       })
     },
     async onFollow () {
+      this.followLoading = true // 展示关注按钮的 loading 状态
       try {
         if (this.article.is_followed) {
           // 已关注,取消关注
@@ -203,6 +207,7 @@ export default {
         }
         this.$toast(message)
       }
+      this.followLoading = false // 关闭关注按钮的 loading 状态
     }
   },
   // 生命周期 - 创建完成（可以访问当前this实例）
