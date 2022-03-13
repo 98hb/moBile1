@@ -58,6 +58,7 @@
       <div
         class="article_content markdown-body"
         v-html="article.content"
+        ref="article_content"
       ></div>
       <van-divider>正文结束</van-divider>
       <!-- /文章内容 -->
@@ -97,19 +98,6 @@
 // 例如：import 《组件名称》 from '《组件路径》';
 import { getArticleById } from '@/api/article'
 import { ImagePreview } from 'vant'
-ImagePreview({
-  images: [
-    'https://img.yzcdn.cn/vant/apple-1.jpg',
-    'https://img.yzcdn.cn/vant/apple-2.jpg'
-  ],
-  // 预览图片的起始位置,从0开始
-  startPosition: 1,
-  // 点击关闭
-  onClose () {
-    // do something
-    console.log('onClose')
-  }
-})
 export default {
 // import引入的组件需要注入到对象中才能使用
   name: 'ArticleIndex',
@@ -143,7 +131,14 @@ export default {
         //   JSON.parse('lasjglaijsdgl')
         // }
         // console.log(data)
+        // 数据驱动视图这件事儿不是立即的
         this.article = data.data
+        // 初始化图片点击预览
+        // console.log(this.$refs.article_content)
+        setTimeout(() => {
+          // console.log(this.$refs.article_content)
+          this.previewImage()
+        }, 0)
         // console.log(this.article)
         // 请求成功,关闭loading
         // this.loading = false
@@ -157,6 +152,28 @@ export default {
       }
       // 无论请求成功失败,都关闭loading
       this.loading = false
+    },
+    previewImage () {
+      // 得到所有的 img 节点
+      const articleContent = this.$refs.article_content
+      const imgs = articleContent.querySelectorAll('img')
+      // console.log(imgs)
+      // 获取所有 img 地址
+      const images = []
+      imgs.forEach((img, index) => {
+        images.push(img.src)
+        // 给每个 img 注册点击事件, 在处理函数中调用预览
+        img.onclick = () => {
+          ImagePreview({
+          // 预览的图片地址数组
+            images,
+            // 预览图片的起始位置,从0开始
+            startPosition: index
+            // 点击关闭
+          })
+        }
+      // console.log(images)
+      })
     }
   },
   // 生命周期 - 创建完成（可以访问当前this实例）
