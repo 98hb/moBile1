@@ -40,6 +40,7 @@
             class="follow_btn"
             round
             size="small"
+            @click="onFollow"
           >
               已关注
           </van-button>
@@ -51,6 +52,7 @@
             round
             size="small"
             icon="plus"
+            @click="onFollow"
           >
               关注
           </van-button>
@@ -100,6 +102,7 @@
 // 例如：import 《组件名称》 from '《组件路径》';
 import { getArticleById } from '@/api/article'
 import { ImagePreview } from 'vant'
+import { addFollow, deleteFollow } from '@/api/user'
 export default {
 // import引入的组件需要注入到对象中才能使用
   name: 'ArticleIndex',
@@ -176,6 +179,30 @@ export default {
         }
       // console.log(images)
       })
+    },
+    async onFollow () {
+      try {
+        if (this.article.is_followed) {
+          // 已关注,取消关注
+          // const { data } = await deleteFollow(this.article.aut_id)
+          // console.log(data)
+          await deleteFollow(this.article.aut_id)
+          // this.article.is_followed = false
+        } else {
+          // 没有关注,添加关注
+          // const { data } = await addFollow(this.article.aut_id)
+          // console.log(data)
+          await addFollow(this.article.aut_id)
+          // this.article.is_followed = true
+        }
+        this.article.is_followed = !this.article.is_followed
+      } catch (err) {
+        let message = '操作失败,请重试'
+        if (err.response && err.response.status === 400) {
+          message = '你不能关注你自己!'
+        }
+        this.$toast(message)
+      }
     }
   },
   // 生命周期 - 创建完成（可以访问当前this实例）
