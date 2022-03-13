@@ -58,9 +58,11 @@ export default {
           limit: this.limit // 获取的评论数据个数，不传表示采用后端服务设定的默认每页数据量
         })
         // 2. 将数据添加到列表中
-        // console.log(data)
+        console.log(data)
         const { results } = data.data
         this.list.push(...results)
+        // 把文章的总数量传递到外部
+        this.$emit('onload_success', data.data)
         // 3. 将 loading 设置为 false
         this.loading = false
         // 4. 判断是否还有数据

@@ -89,13 +89,14 @@
       <!-- 文章评论列表 -->
       <CommentList
         :source="article.art_id"
+        @onload_success="totalCommentCount = $event.total_count"
       />
       <!-- /文章评论列表 -->
       <!-- 底部区域 -->
       <div class="article_bottom">
         <van-button class="comment_btn" type="default" round size="small">写评论
         </van-button>
-        <van-icon class="comment_icon" name="comment_o" badge="123"></van-icon>
+        <van-icon class="comment_icon" name="comment_o" :badge="totalCommentCount"></van-icon>
         <CollectArticle
           class="btn_item"
           v-model="article.is_collected"
@@ -157,7 +158,8 @@ export default {
       article: {}, // 文章详情
       loading: true, // 加载中的 loading 状态
       errStatus: 0, // 失败的状态码
-      followLoading: false
+      followLoading: false,
+      totalCommentCount: 0
     }
   },
   // 监听属性 类似于data概念
@@ -222,7 +224,7 @@ export default {
   },
   // 生命周期 - 创建完成（可以访问当前this实例）
   created () {
-
+    this.onload()
   },
   // 生命周期 - 挂载完成（可以访问DOM元素）
   mounted () {
