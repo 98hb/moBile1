@@ -94,6 +94,7 @@
         <CollectArticle
           class="btn_item"
           v-model="article.is_collected"
+          :article_id="article.art_id"
         />
         <van-button class="btn_item"  icon="good-job-o" />
         <van-icon name="share" color="#777777"></van-icon>
