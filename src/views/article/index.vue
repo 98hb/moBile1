@@ -86,6 +86,9 @@
         ref="article_content"
       ></div>
       <van-divider>正文结束</van-divider>
+      <!-- 文章评论列表 -->
+      <!-- /文章评论列表 -->
+      <CommentList/>
       <!-- 底部区域 -->
       <div class="article_bottom">
         <van-button class="comment_btn" type="default" round size="small">写评论
@@ -135,10 +138,11 @@ import { ImagePreview } from 'vant'
 import FollowUser from '@/components/follower_user'
 import CollectArticle from '@/components/collect_article'
 import LikeArticle from '@/components/like_article'
+import CommentList from './components/comment_list'
 export default {
 // import引入的组件需要注入到对象中才能使用
   name: 'ArticleIndex',
-  components: { FollowUser, CollectArticle, LikeArticle },
+  components: { FollowUser, CollectArticle, LikeArticle, CommentList },
   props: {
     articleId: {
       type: [Number, String, Object],
