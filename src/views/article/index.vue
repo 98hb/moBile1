@@ -86,6 +86,19 @@
         ref="article_content"
       ></div>
       <van-divider>正文结束</van-divider>
+      <!-- 底部区域 -->
+      <div class="article_bottom">
+        <van-button class="comment_btn" type="default" round size="small">写评论
+        </van-button>
+        <van-icon class="comment_icon" name="comment_o" badge="123"></van-icon>
+        <CollectArticle
+          class="btn_item"
+          v-model="article.is_collected"
+        />
+        <van-button class="btn_item"  icon="good-job-o" />
+        <van-icon name="share" color="#777777"></van-icon>
+      </div>
+      <!-- /底部区域 -->
       <!-- /文章内容 -->
     </div>
     <!-- /2加载完成-文章详情 -->
@@ -105,16 +118,7 @@
       </div>
   </div>
       <!-- /加载失败: 其它未知错误 (例如网络原因或服务器端异常) -->
-      <!-- 底部区域 -->
-      <div class="article_bottom">
-        <van-button class="comment_btn" type="default" round size="small">写评论
-        </van-button>
-        <van-icon class="comment_icon" name="comment_o" badge="123"></van-icon>
-        <CollectArticle class="btn_item" />
-        <van-button class="btn_item"  icon="good-job-o" />
-        <van-icon name="share" color="#777777"></van-icon>
-      </div>
-      <!-- /底部区域 -->
+
 </div>
 </template>
 

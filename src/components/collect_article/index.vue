@@ -1,6 +1,11 @@
 <!--  -->
 <template>
-<van-button   icon="star-o" />
+<van-button
+  :icon="value ? 'star' : 'star-o'"
+  :class="{
+    collected: value
+  }"
+/>
 </template>
 
 <script>
@@ -11,7 +16,12 @@ export default {
 // import引入的组件需要注入到对象中才能使用
   name: 'collect_article',
   components: {},
-  props: {},
+  props: {
+    value: {
+      type: Boolean,
+      reuired: true
+    }
+  },
   data () {
     // 这里存放数据
     return {
@@ -45,5 +55,9 @@ export default {
 </script>
 <style lang='less' scoped>
 //@import url(); 引入公共css类
-
+.collected {
+  .van-icon {
+    color: #ffa500
+  }
+}
 </style>
