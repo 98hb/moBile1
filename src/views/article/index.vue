@@ -96,7 +96,11 @@
           v-model="article.is_collected"
           :article_id="article.art_id"
         />
-        <van-button class="btn_item"  icon="good-job-o" />
+        <LikeArticle
+          class="btn_item"
+          v-model="article.attitude"
+          :article_id="article.art_id"
+        />
         <van-icon name="share" color="#777777"></van-icon>
       </div>
       <!-- /底部区域 -->
@@ -130,10 +134,11 @@ import { getArticleById } from '@/api/article'
 import { ImagePreview } from 'vant'
 import FollowUser from '@/components/follower_user'
 import CollectArticle from '@/components/collect_article'
+import LikeArticle from '@/components/like_article'
 export default {
 // import引入的组件需要注入到对象中才能使用
   name: 'ArticleIndex',
-  components: { FollowUser, CollectArticle },
+  components: { FollowUser, CollectArticle, LikeArticle },
   props: {
     articleId: {
       type: [Number, String, Object],
